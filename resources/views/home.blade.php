@@ -1,6 +1,3 @@
-@section('page_title','Home')
-
-
 @extends('layout.app')
 
 @section('content')

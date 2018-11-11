@@ -1,5 +1,3 @@
-@section('page_title','Login')
-
 <html>
 @include('layout.header_script')
 
@@ -7,29 +5,26 @@
 
 <div class="login-box">
     <div class="login-logo">
-        {{--<a href="{{url('/dosen/login')}}"><b>{{config('app.name')}}</b></a>--}}
-        {{--<img src="{{asset('/img/fte.png')}}" class="img-responsive">--}}
+        <img src="{{asset('/img/logo.png')}}" class="img-responsive center-block">
         <h4><b>Milo Backoffice</b></h4>
     </div>
-    <!-- /.login-logo -->
+
     <div class="login-box-body">
-        {{--<p class="login-box-msg"><b>Administrator</b></p>--}}
+        <p class="login-box-msg">Sign in to start your session</p>
         <form role="form" method="POST" action="{{ url('/login') }}">
             {{ csrf_field() }}
             <div class="form-group has-feedback">
-                <input type="text" class="form-control"  name="username" value="{{old('username')}}" required>
+                <input placeholder="Username" type="text" class="form-control"  name="username" value="{{old('username')}}" required>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control"  name="password" required>
+                <input placeholder="Password" type="password" class="form-control"  name="password" required>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
-                <!-- /.col -->
                 <div class="col-lg-12">
-                    <button type="submit" class="btn bg-purple btn-block btn-flat">Login</button>
+                    <button type="submit" class="btn bg-yellow btn-block btn-flat">Login</button>
                 </div>
-                <!-- /.col -->
             </div>
         </form>
     </div>

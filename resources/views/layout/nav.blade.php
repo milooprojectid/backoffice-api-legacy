@@ -1,23 +1,33 @@
-<!-- Left side column. contains the sidebar -->
 <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
         <ul class="sidebar-menu">
 
-            <li class="header">NAVIGATION</li>
-            <li class="{{Request::is('/home') ? 'active':''}}">
+            <li class="{{Request::is('home') ? 'active':''}}">
                 <a href="{{route('home')}}">
                     <i class="fa fa-home"></i> <span>Home</span>
                 </a>
             </li>
 
-            {{--Matakuliah Tawar--}}
-            {{--<li class="treeview {{Request::is('admin/mktawar') || Request::is('admin/mktawar/*') ? 'active':''}}">--}}
-                {{--<a href="{{route('admin.mktawar.index')}}">--}}
-                    {{--<i class="fa fa-book"></i><span>Matakuliah Tawar</span>--}}
-                {{--</a>--}}
-            {{--</li>--}}
+            {{-- Source --}}
+            <li class="treeview {{Request::is('source') || Request::is('source/*') ? 'active':''}}">
+                <a href="">
+                    <i class="fa fa-dot-circle-o"></i><span>Source</span>
+                </a>
+            </li>
+
+            {{-- Link --}}
+            <li class="treeview {{Request::is('link') || Request::is('link/*') ? 'active':''}}">
+                <a href="">
+                    <i class="fa fa-link"></i><span>Link</span>
+                </a>
+            </li>
+
+            {{-- Raw --}}
+            <li class="treeview {{Request::is('raw') || Request::is('raw/*') ? 'active':''}}">
+                <a href="">
+                    <i class="fa fa-database"></i><span>Raw Data</span>
+                </a>
+            </li>
 
             {{--Matakuliah--}}
             {{--<li class="treeview {{Request::is('admin/matakuliah') || Request::is('admin/matakuliah/*') ? 'active':''}}">--}}
@@ -103,5 +113,5 @@
 
         </ul>
     </section>
-    <!-- /.sidebar -->
+
 </aside>
