@@ -11,7 +11,7 @@
             {{-- Source --}}
             <li class="treeview {{Request::is('source') || Request::is('source/*') ? 'active':''}}">
                 <a href="">
-                    <i class="fa fa-dot-circle-o"></i><span>Source</span>
+                    <i class="fa fa-newspaper-o"></i><span>Source</span>
                 </a>
             </li>
 
@@ -26,6 +26,13 @@
             <li class="treeview {{Request::is('raw') || Request::is('raw/*') ? 'active':''}}">
                 <a href="">
                     <i class="fa fa-database"></i><span>Raw Data</span>
+                </a>
+            </li>
+
+            {{-- Corpus --}}
+            <li class="treeview {{Request::is('corpus') || Request::is('corpus/*') ? 'active':''}}">
+                <a href="">
+                    <i class="fa fa-book"></i><span>Corpus</span>
                 </a>
             </li>
 

@@ -18,5 +18,9 @@
         "lodash": "^4.17.5",
         "popper.js": "^1.12",
         "vue": "^2.5.17"
+    },
+    "dependencies": {
+        "apexcharts": "^2.2.1",
+        "vue-apexcharts": "^1.2.4"
     }
 }
