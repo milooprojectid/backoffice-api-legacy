@@ -59,7 +59,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        JWTAuth::invalidate(Session::get('authorization'));
+        // JWTAuth::invalidate(Session::get('authorization'));
 
         $this->guard()->logout();
 
