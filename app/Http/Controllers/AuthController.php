@@ -12,6 +12,8 @@ class AuthController extends Controller
     private $request;
 
     public function __construct(Request $request) {
+        $this->middleware('guard');
+        $this->middleware('throttle:3,1');
         $this->request = $request;
     }
 

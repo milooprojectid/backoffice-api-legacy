@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     public function __construct() {
-        $this->middleware('jwt');
+        $this->middleware('api');
     }
 
     public function profile(Request $request){

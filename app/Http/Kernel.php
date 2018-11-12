@@ -39,6 +39,8 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
+            'guard',
+            'jwt',
             'bindings',
         ],
     ];
@@ -61,7 +63,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'jwt' => \App\Http\Middleware\JwtAuth::class,
-        'api.guard' => \App\Http\Middleware\ApiGuard::class,
+        'guard' => \App\Http\Middleware\ApiGuard::class,
     ];
 
     /**
