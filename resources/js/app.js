@@ -1,2 +1,2 @@
-import './bootstrap';
+// import './bootstrap';
 import './vue/app';

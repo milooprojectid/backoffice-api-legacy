@@ -14,3 +14,4 @@ yarn-error.log
 .env
 .phpunit.result.cache
 .DS_STORE
+/public/js/app.js

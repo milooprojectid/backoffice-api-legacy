@@ -27,14 +27,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="box box-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Example Chart</h3>
+                        </div>
+                        <div class="box-body">
+                            <apex-charts type="bar" :options="chartOptions" :series="series" :colors="colors"></apex-charts>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
             </div>
         </div>
     </layout>
 </template>
 <script>
     import ApexCharts from 'vue-apexcharts'
-    import PageHeader from '../components/PageHeader';
-    import InfoBox from '../components/InfoBox';
+    import PageHeader from '../../components/PageHeader';
+    import InfoBox from '../../components/InfoBox';
     import Layout from '../layouts/Default';
     export default {
         components:{

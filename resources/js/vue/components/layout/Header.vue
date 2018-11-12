@@ -23,7 +23,7 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a><i class="fa fa-power-off"></i> Logout</a>
+                                <a @click="logout"><i class="fa fa-power-off"></i> Logout</a>
                             </li>
                         </ul>
                     </li>
@@ -35,5 +35,11 @@
 </template>
 
 <script>
-    export default {};
+    export default {
+        methods:{
+            logout() {
+                this.$store.dispatch("logout");
+            }
+        }
+    };
 </script>

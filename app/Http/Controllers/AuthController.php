@@ -10,19 +10,21 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     private $request;
+    private $expiresIn;
 
     public function __construct(Request $request) {
         $this->middleware('guard');
         $this->middleware('throttle:3,1');
         $this->request = $request;
+        $this->expiresIn = floatval(env('JWT_EXPIRES', '3600'));
     }
 
     protected function jwt(User $user) {
         $payload = [
-            'iss' => "lumen-jwt",   // Issuer of the token
+            'iss' => "milo-backoffice",   // Issuer of the token
             'sub' => $user->id,     // Subject of the token
             'iat' => time(),        // Time when JWT was issued.
-            'exp' => time() + 60 * 60 // Expiration time
+            'exp' => time() + $this->expiresIn // Expiration time
         ];
 
         return JWT::encode($payload, env('JWT_SECRET'));
@@ -44,7 +46,9 @@ class AuthController extends Controller
         }
 
         $response = [
-            'token' => $this->jwt($user)
+            'token' => $this->jwt($user),
+            'refreshToken' => null,
+            'expiresIn' => $this->expiresIn
         ];
 
         return api_response('login successfull', $response);
