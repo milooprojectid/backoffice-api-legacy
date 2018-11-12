@@ -46,6 +46,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $isApiPath = explode('/',$request->path())[0] == 'api';
+
+        if ($isApiPath){
+            $stackTrace = env('APP_ENV') == 'local' ? $exception->getTrace() : null;
+            return api_response($exception->getMessage(), $stackTrace, $exception->status);
+        }
+
         return parent::render($request, $exception);
     }
 }
