@@ -4,6 +4,9 @@ import store from '../store';
 // Pages
 import Home from '../hoc/pages/Home';
 import Source from '../hoc/pages/Source';
+import Link from '../hoc/pages/Link';
+import Raw from '../hoc/pages/Raw';
+import Corpus from '../hoc/pages/Corpus';
 import Login from '../hoc/pages/Login';
 import Notfound from '../hoc/pages/NotFound';
 
@@ -25,11 +28,28 @@ export default new Router({
             component: Home,
             beforeEnter: checkAuth
         },
-
         {
             path: '/source',
             name: 'source',
             component: Source,
+            beforeEnter: checkAuth
+        },
+        {
+            path: '/link',
+            name: 'link',
+            component: Link,
+            beforeEnter: checkAuth
+        },
+        {
+            path: '/raw',
+            name: 'raw',
+            component: Raw,
+            beforeEnter: checkAuth
+        },
+        {
+            path: '/corpus',
+            name: 'corpus',
+            component: Corpus,
             beforeEnter: checkAuth
         },
         {
