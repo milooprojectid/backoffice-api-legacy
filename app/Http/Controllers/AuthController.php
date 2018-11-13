@@ -14,7 +14,7 @@ class AuthController extends Controller
 
     public function __construct(Request $request) {
         $this->middleware('guard');
-        $this->middleware('throttle:3,1');
+        $this->middleware('throttle:60,1');
         $this->request = $request;
         $this->expiresIn = floatval(env('JWT_EXPIRES', '3600'));
     }
@@ -38,11 +38,11 @@ class AuthController extends Controller
 
         $user = User::where('username', $this->request->input('username'))->first();
         if (!$user) {
-            return api_response('username or password is invalid', null, 400);
+            return api_response('username or password is invalid', null, 401);
         }
 
         if (!Hash::check($this->request->input('password'), $user->password)) {
-            return api_response('username or password is invalid', null, 400);
+            return api_response('username or password is invalid', null, 401);
         }
 
         $response = [

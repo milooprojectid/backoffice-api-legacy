@@ -18,7 +18,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <button @click.prevent="login" class="btn bg-yellow btn-block btn-flat">Login</button>
+                            <button @click.prevent="login" class="btn bg-yellow btn-block btn-flat">Login <i v-show="loading" class="fa fa-spinner fa-pulse fa-fw"></i></button>
                         </div>
                     </div>
                 </form>
@@ -36,9 +36,9 @@
             loading: false
         }),
         methods: {
-            async login() {
+            login() {
                 this.loading = true;
-                await this.$http
+                this.$http
                     .post("/login", this.user)
                     .then(res => {
                         this.$store.dispatch("login", res.data.content);
@@ -46,14 +46,13 @@
                     .catch(err => {
                         this.loading = false;
                         this.user.password = null;
-                        console.log(err);
-                        // this.$notify({
-                        //     type: "error",
-                        //     title: "Whoops",
-                        //     text: "Username atau password salah",
-                        //     group: "event",
-                        //     width: 900
-                        // });
+                        this.$notify({
+                            type: "error",
+                            title: "Whoops",
+                            text: "invalid credential",
+                            group: "event",
+                            width: 900
+                        });
                     });
             }
         }

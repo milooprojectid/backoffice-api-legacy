@@ -3,6 +3,7 @@ import store from '../store';
 
 // Pages
 import Home from '../hoc/pages/Home';
+import Source from '../hoc/pages/Source';
 import Login from '../hoc/pages/Login';
 import Notfound from '../hoc/pages/NotFound';
 
@@ -24,12 +25,19 @@ export default new Router({
             component: Home,
             beforeEnter: checkAuth
         },
+
+        {
+            path: '/source',
+            name: 'source',
+            component: Source,
+            beforeEnter: checkAuth
+        },
         {
             path: '/login',
             name: 'login',
             component: Login,
             beforeEnter(to, from, next) {
-                if (store.getters.getToken) return next('/home')
+                if (store.getters.getToken) return next('/home');
                 return next();
             }
         },
