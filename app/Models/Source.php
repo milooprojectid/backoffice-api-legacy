@@ -8,4 +8,5 @@ class Source extends Model
 {
     protected $connection = 'mongodb';
     protected $collection = 'sources';
+    public $timestamps = false;
 }

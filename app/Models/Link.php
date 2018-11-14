@@ -8,4 +8,5 @@ class Link extends Model
 {
     protected $connection = 'mongodb';
     protected $collection = 'links';
+    public $timestamps = false;
 }

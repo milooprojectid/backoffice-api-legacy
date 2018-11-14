@@ -8,4 +8,5 @@ class Raw extends Model
 {
     protected $connection = 'mongodb';
     protected $collection = 'raws';
+    public $timestamps = false;
 }
