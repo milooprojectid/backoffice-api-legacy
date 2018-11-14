@@ -21,6 +21,12 @@
                 <router-link to="/corpus" active-class="active" tag="li" exact>
                     <a><i class="fa fa-book"></i> <span>Corpus</span></a>
                 </router-link>
+
+                <hr>
+
+                <li>
+                    <a href="/horizon" target="_blank"><i class="fa fa-desktop"></i> <span>Queue Monitor</span></a>
+                </li>
             </ul>
         </section>
     </aside>
