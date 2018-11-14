@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Source;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -13,4 +14,5 @@ class MainController extends Controller
     public function profile(Request $request){
         return api_response('user data successfully retrieved', $request->auth);
     }
+
 }

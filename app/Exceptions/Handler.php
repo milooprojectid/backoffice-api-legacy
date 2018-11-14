@@ -34,7 +34,7 @@ class Handler extends ExceptionHandler
             }
 
             $stackTrace = env('APP_ENV') == 'local' ? $exception->getTrace() : null;
-            return api_response($exception->getMessage(), $stackTrace, $exception->status);
+            return api_response($exception->getMessage(), $stackTrace,500);
         }
 
         return parent::render($request, $exception);

@@ -46,7 +46,8 @@ class SourceSeeder extends Seeder
             Source::create([
                 "name" => $source,
 			    "alias" => $source,
-			    "url" => "http://" . $source . ".id"
+			    "url" => "http://" . $source . ".id",
+                "active" => true
             ]);
         }
     }

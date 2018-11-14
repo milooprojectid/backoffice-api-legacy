@@ -3,74 +3,63 @@
         <page-header name="Home"></page-header>
         <div class="content">
             <div class="row">
-                <info-box name="Source Registered" value="9" color="yellow" progress="20" icon="newspaper-o">
-                    4 / 9 sources active
+                <info-box name="Source Registered" :value="source.all" color="yellow" :progress="calculateProgress(source.all, source.active)" icon="newspaper-o">
+                    {{source.active}} / {{source.all}} active
                 </info-box>
-                <info-box name="Link Registered" value="1400" color="yellow" progress="40" icon="link">
-                    300 / links crawled
+                <info-box name="Link Stored" :value="link.all" color="yellow" :progress="calculateProgress(link.all, link.done)" icon="link">
+                    {{link.done}} / {{link.all}} crawled
                 </info-box>
-                <info-box name="Raw Registered" value="5000" color="yellow" progress="60" icon="database">
-                    4500 / 500 data processed
+                <info-box name="Raw Stored" :value="raw.all" color="yellow" :progress="calculateProgress(raw.all, raw.done)" icon="database">
+                    {{raw.done}} / {{raw.all}} processed
                 </info-box>
-                <info-box name="Corpus" value="666" color="yellow" progress="80" icon="book">
-                    666 corpus available
+                <info-box name="Corpus" :value="corpus.all" color="yellow" :progress="corpus.all" icon="book">
+                    {{corpus.all}} available
                 </info-box>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="box box-warning">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Example Chart</h3>
-                        </div>
-                        <div class="box-body">
-                            <apex-charts type="bar" :options="chartOptions" :series="series" :colors="colors"></apex-charts>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box box-warning">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Example Chart</h3>
-                        </div>
-                        <div class="box-body">
-                            <apex-charts type="bar" :options="chartOptions" :series="series" :colors="colors"></apex-charts>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-
+                <chart/>
             </div>
         </div>
     </layout>
 </template>
 <script>
-    import ApexCharts from 'vue-apexcharts'
     import PageHeader from '../../components/PageHeader';
     import InfoBox from '../../components/InfoBox';
     import Layout from '../layouts/Default';
+    import HomeRepo from '../../repository/home_repo';
+    import Chart from '../../components/Chart';
     export default {
+        data:() => ({
+            source: {
+                all: 0,
+                active: 0
+            },
+            link: {
+                all: 0,
+                done: 0
+            },
+            raw: {
+                all: 0,
+                done: 0
+            },
+            corpus: {
+                all: 0
+            }
+        }),
         components:{
             PageHeader,
             InfoBox,
-            ApexCharts,
-            Layout
+            Layout,
+            Chart
         },
-        data: function() {
-            return {
-                chartOptions: {
-                    chart: {
-                        id: 'vuechart'
-                    },
-                    xaxis: {
-                        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-                    }
-                },
-                series: [{
-                    name: 'series-1',
-                    data: [30, 40, 45, 50, 49, 60, 70, 91]
-                }]
-            }
+        methods:{
+            calculateProgress: (a, b) => (100 / parseFloat(a)) * parseFloat(b)
+        },
+        mounted(){
+            HomeRepo.getSource().then(({ data: { content: source } }) => { this.source = source });
+            HomeRepo.getLink().then(({ data: { content: link } }) => { this.link = link });
+            HomeRepo.getRaw().then(({ data: { content: raw } }) => { this.raw = raw });
+            HomeRepo.getCorpus().then(({ data: { content: corpus } }) => { this.corpus = corpus });
         }
     }
 </script>

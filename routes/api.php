@@ -6,3 +6,11 @@ Route::get('/', function () {
 
 Route::post('/login', 'AuthController@login');
 Route::get('/profile', 'MainController@profile');
+
+
+Route::group(['prefix' => 'home'], function (){
+    Route::get('/source', 'HomeController@source');
+    Route::get('/link', 'HomeController@link');
+    Route::get('/raw', 'HomeController@raw');
+    Route::get('/corpus', 'HomeController@corpus');
+});

@@ -18,7 +18,7 @@ class RawSeeder extends Seeder
             Raw::create([
                 "source" => "detik",
 			    "content" => $faker->paragraph,
-			    "status" => 0 || 1
+			    "status" => 0
             ]);
         }
     }
