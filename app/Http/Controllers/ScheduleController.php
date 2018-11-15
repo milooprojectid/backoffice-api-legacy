@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\CrawlJob;
+use App\Jobs\ScrapJob;
 use App\models\Link;
+use App\Models\Raw;
 
 class ScheduleController extends Controller
 {
     private $status;
-    private $maxCrawlJob;
-    private $maxScrapJob;
 
     public function __construct()
     {
         $this->middleware('guard');
         $this->status = 1;
-        $this->maxCrawlJob = 5;
-        $this->maxScrapJob = 5;
     }
 
     public function crawl(){
         $runningJob = Link::running()->count();
-        $allowedJob = $this->maxCrawlJob - $runningJob;
+        $maxCrawlJob = 5;
+
+        $allowedJob = $maxCrawlJob - $runningJob;
 
         if ($allowedJob > 0 && $this->status) {
             $links = Link::new()->take($allowedJob)->get();
@@ -34,6 +34,18 @@ class ScheduleController extends Controller
     }
 
     public function scrap(){
+        $runningJob = Raw::running()->count();
+        $maxScrapJob = 5;
 
+        $allowedJob = $maxScrapJob - $runningJob;
+
+        if ($allowedJob > 0 && $this->status) {
+            $raws = Raw::new()->take($allowedJob)->get();
+            foreach ($raws as $raw){
+                ScrapJob::dispatch($raw);
+            }
+        }
+
+        return api_response(count($raws) . ' job(s) dispatched');
     }
 }
