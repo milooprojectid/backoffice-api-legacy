@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('api');
+    }
+
     public function source(){
         $source = [
             "active" => Source::all()->where('active', true)->count(),

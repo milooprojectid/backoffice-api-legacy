@@ -14,3 +14,10 @@ Route::group(['prefix' => 'home'], function (){
     Route::get('/raw', 'HomeController@raw');
     Route::get('/corpus', 'HomeController@corpus');
 });
+
+Route::group(['prefix' => 'schedule'], function (){
+    Route::get('/crawl', 'ScheduleController@crawl');
+    Route::get('/scrap', 'ScheduleController@scrap');
+});
+
+
