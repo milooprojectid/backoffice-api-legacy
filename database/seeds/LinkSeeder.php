@@ -14,13 +14,15 @@ class LinkSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
-        for ($i = 0; $i < 100; $i++){
-            Link::create([
-                "url" => $faker->url,
-                "source" => "detik",
-                "status" => 0,
-                "visited_at" => null
-            ]);
+        $sources = ['detik', 'kompas', 'cnn', 'kumparan', 'viva'];
+        foreach ($sources as $source){
+            for ($i = 0; $i < 25; $i++){
+                Link::create([
+                    "url" => $faker->url,
+                    "source" => $source,
+                    "status" => 10,
+                ]);
+            }
         }
     }
 

@@ -87,19 +87,27 @@ return [
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
+            'svr-prod' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
+                'queue' => ['scrapper', 'crawler'],
                 'balance' => 'simple',
                 'processes' => 10,
                 'tries' => 3,
             ],
         ],
-
-        'local' => [
-            'supervisor-1' => [
+        'staging' => [
+            'svr-stage' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
+                'queue' => ['scrapper', 'crawler'],
+                'balance' => 'simple',
+                'processes' => 10,
+                'tries' => 3,
+            ],
+        ],
+        'local' => [
+            'svr-dev' => [
+                'connection' => 'redis',
+                'queue' => ['scrapper', 'crawler'],
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 3,

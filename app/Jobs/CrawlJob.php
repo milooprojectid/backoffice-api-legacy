@@ -15,7 +15,6 @@ class CrawlJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $link;
-
     public function __construct(Link $link)
     {
         $this->link = $link;
@@ -26,5 +25,10 @@ class CrawlJob implements ShouldQueue
         $this->link->setRunning();
         // Guzzle Python Server
         $this->link->setCompleted();
+    }
+
+    public function tags()
+    {
+        return ['crawl:'.$this->link->id];
     }
 }

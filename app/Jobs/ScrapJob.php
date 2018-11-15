@@ -27,4 +27,9 @@ class ScrapJob implements ShouldQueue
         // Guzzle Python Server
         $this->raw->setCompleted();
     }
+
+    public function tags()
+    {
+        return ['scrap:'.$this->raw->id];
+    }
 }

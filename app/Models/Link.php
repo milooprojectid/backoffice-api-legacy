@@ -7,9 +7,7 @@ use Jenssegers\Mongodb\Eloquent\Model as Model;
 class Link extends Model
 {
     protected $connection = 'mongodb';
-    protected $collection = 'links';
     protected $fillable = ['status'];
-    public $timestamps = false;
 
     // Constants
     private $statuses = [
