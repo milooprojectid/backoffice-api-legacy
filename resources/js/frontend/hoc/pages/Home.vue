@@ -28,6 +28,7 @@
     import Layout from '../layouts/Default';
     import HomeRepo from '../../repository/home_repo';
     import Chart from '../../components/Chart';
+    import Listener from '../../utils/listener';
     export default {
         data:() => ({
             source: {
@@ -53,7 +54,15 @@
             Chart
         },
         methods:{
-            calculateProgress: (a, b) => (100 / parseFloat(a)) * parseFloat(b)
+            calculateProgress: (a, b) => (100 / parseFloat(a)) * parseFloat(b),
+            linkChanged({ all, done }) {
+                if (all) this.link.all += all;
+                if (done) this.link.done += done;
+            },
+            rawChanged({ all, done }) {
+                if (all) this.raw.all += all;
+                if (done) this.raw.done += done;
+            }
         },
         mounted(){
             HomeRepo.getSummary()
@@ -62,7 +71,12 @@
                     this.link = link;
                     this.raw = raw;
                     this.corpus = corpus;
-                });
+                })
+                .then(() => {
+                    const listener = new Listener('home');
+                    listener.bind('link-changed', this.linkChanged);
+                    listener.bind('raw-changed', this.rawChanged);
+                })
         }
     }
 </script>
