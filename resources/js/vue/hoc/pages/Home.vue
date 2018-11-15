@@ -56,10 +56,13 @@
             calculateProgress: (a, b) => (100 / parseFloat(a)) * parseFloat(b)
         },
         mounted(){
-            HomeRepo.getSource().then(({ data: { content: source } }) => { this.source = source });
-            HomeRepo.getLink().then(({ data: { content: link } }) => { this.link = link });
-            HomeRepo.getRaw().then(({ data: { content: raw } }) => { this.raw = raw });
-            HomeRepo.getCorpus().then(({ data: { content: corpus } }) => { this.corpus = corpus });
+            HomeRepo.getSummary()
+                .then(({ data: { content: { source, link, raw, corpus } } }) => {
+                    this.source = source;
+                    this.link = link;
+                    this.raw = raw;
+                    this.corpus = corpus;
+                });
         }
     }
 </script>

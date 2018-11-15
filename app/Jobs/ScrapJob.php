@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Raw;
+use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;

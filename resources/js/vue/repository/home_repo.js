@@ -1,16 +1,7 @@
 import http from '../http';
 
-const getSource = () => http.get('/home/source');
-
-const getLink = () => http.get('/home/link');
-
-const getRaw = () => http.get('/home/raw');
-
-const getCorpus = () => http.get('/home/corpus');
+const getSummary = () => http.get('/home/summary');
 
 export default {
-    getSource,
-    getLink,
-    getRaw,
-    getCorpus
+    getSummary
 };

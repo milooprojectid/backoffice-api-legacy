@@ -9,15 +9,12 @@ Route::get('/profile', 'MainController@profile');
 
 
 Route::group(['prefix' => 'home'], function (){
-    Route::get('/source', 'HomeController@source');
-    Route::get('/link', 'HomeController@link');
-    Route::get('/raw', 'HomeController@raw');
-    Route::get('/corpus', 'HomeController@corpus');
+    Route::get('/summary', 'HomeController@summary');
 });
 
 Route::group(['prefix' => 'schedule'], function (){
-    Route::get('/crawl', 'ScheduleController@crawl');
-    Route::get('/scrap', 'ScheduleController@scrap');
+    Route::post('/crawl', 'ScheduleController@crawl');
+    Route::post('/scrap', 'ScheduleController@scrap');
 });
 
 

@@ -7,7 +7,7 @@ axios.defaults.headers.common['secret'] = process.env.MIX_API_SECRET;
 axios.defaults.baseURL = process.env.MIX_BASE_URL;
 
 axios.interceptors.request.use(config => {
-    if (store.getters.getToken) config.headers.Authorization = store.getters.getToken;
+    if (store.getters.getToken) config.headers.token = store.getters.getToken;
     return config;
 });
 

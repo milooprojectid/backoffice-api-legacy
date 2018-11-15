@@ -31123,7 +31123,7 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.headers.common['secret'] 
 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = "http://localhost:8000/api";
 
 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.request.use(function (config) {
-    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].getters.getToken) config.headers.Authorization = __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].getters.getToken;
+    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].getters.getToken) config.headers.token = __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].getters.getToken;
     return config;
 });
 
@@ -34454,20 +34454,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        __WEBPACK_IMPORTED_MODULE_3__repository_home_repo__["a" /* default */].getSource().then(function (_ref) {
-            var source = _ref.data.content;
+        __WEBPACK_IMPORTED_MODULE_3__repository_home_repo__["a" /* default */].getSummary().then(function (_ref) {
+            var _ref$data$content = _ref.data.content,
+                source = _ref$data$content.source,
+                link = _ref$data$content.link,
+                raw = _ref$data$content.raw,
+                corpus = _ref$data$content.corpus;
+
             _this.source = source;
-        });
-        __WEBPACK_IMPORTED_MODULE_3__repository_home_repo__["a" /* default */].getLink().then(function (_ref2) {
-            var link = _ref2.data.content;
             _this.link = link;
-        });
-        __WEBPACK_IMPORTED_MODULE_3__repository_home_repo__["a" /* default */].getRaw().then(function (_ref3) {
-            var raw = _ref3.data.content;
             _this.raw = raw;
-        });
-        __WEBPACK_IMPORTED_MODULE_3__repository_home_repo__["a" /* default */].getCorpus().then(function (_ref4) {
-            var corpus = _ref4.data.content;
             _this.corpus = corpus;
         });
     }
@@ -35227,27 +35223,12 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__http__ = __webpack_require__(136);
 
 
-var getSource = function getSource() {
-    return __WEBPACK_IMPORTED_MODULE_0__http__["a" /* default */].get('/home/source');
-};
-
-var getLink = function getLink() {
-    return __WEBPACK_IMPORTED_MODULE_0__http__["a" /* default */].get('/home/link');
-};
-
-var getRaw = function getRaw() {
-    return __WEBPACK_IMPORTED_MODULE_0__http__["a" /* default */].get('/home/raw');
-};
-
-var getCorpus = function getCorpus() {
-    return __WEBPACK_IMPORTED_MODULE_0__http__["a" /* default */].get('/home/corpus');
+var getSummary = function getSummary() {
+    return __WEBPACK_IMPORTED_MODULE_0__http__["a" /* default */].get('/home/summary');
 };
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    getSource: getSource,
-    getLink: getLink,
-    getRaw: getRaw,
-    getCorpus: getCorpus
+    getSummary: getSummary
 });
 
 /***/ }),

@@ -21,7 +21,6 @@ class CrawlJob implements ShouldQueue
         $this->link = $link;
     }
 
-
     public function handle()
     {
         $this->link->setRunning();
