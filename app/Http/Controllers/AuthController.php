@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -44,6 +46,8 @@ class AuthController extends Controller
         if (!Hash::check($this->request->input('password'), $user->password)) {
             return api_response('username or password is invalid', null, 401);
         }
+
+        Auth::login($user);
 
         $response = [
             'token' => $this->jwt($user),

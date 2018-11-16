@@ -1,5 +1,4 @@
 <template>
-    <div class="col-md-6 col-md-offset-3">
         <div class="box box-warning">
             <!--<div class="box-header with-border">-->
                 <!--<h3 class="box-title">Example Chart</h3>-->
@@ -8,7 +7,6 @@
                 <apex-charts type="bar" :options="options" :series="series"></apex-charts>
             </div>
         </div>
-    </div>
 </template>
 
 <script>

@@ -2,7 +2,7 @@
     <div class="wrapper">
         <app-header/>
         <app-nav/>
-        <div class="content-wrapper" style="min-height: 2000px">
+        <div class="content-wrapper" style="min-height: 1500px">
             <slot></slot>
         </div>
         <app-footer/>

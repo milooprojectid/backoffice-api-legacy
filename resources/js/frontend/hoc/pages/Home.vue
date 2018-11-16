@@ -17,7 +17,8 @@
                 </info-box>
             </div>
             <div class="row">
-                <chart/>
+                <div class="col-md-6"><chart/></div>
+                <!--<div class="col-md-6"><calendar/></div>-->
             </div>
         </div>
     </layout>
