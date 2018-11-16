@@ -7,10 +7,10 @@
                     <div class="box">
                         <div class="box-header">
                             <div class="input-group input-group-sm">
-                                <input type="text" name="table_search" class="form-control pull-right" placeholder="search links">
+                                <input type="text" name="table_search" class="form-control pull-right" placeholder="search links" v-model="search" @keyup.enter="reloadData">
                                 <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default btn-flat" data-toggle="collapse" data-target="#options"><i class="fa fa-gear"></i></button>
-                                    <button type="submit" class="btn btn-default btn-flat"><i class="fa fa-search"></i></button>
+                                    <button type="submit" class="btn btn-default btn-flat" data-toggle="collapse" data-target="#options" ref="btnopt"><i class="fa fa-gear"></i></button>
+                                    <button type="submit" class="btn btn-default btn-flat" @click="reloadData"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                             <div class="collapse" id="options">
@@ -22,29 +22,34 @@
                         </div>
                         <div class="box-body">
                             <table class="table table-striped">
-                                <tbody>
+                                <tbody v-if="total !== 0">
                                 <tr>
-                                    <!--<th>id</th>-->
                                     <th>url</th>
                                     <th>source</th>
                                     <th>status</th>
                                 </tr>
                                 <tr v-for="link in links">
-                                    <!--<td>{{link._id}}</td>-->
                                     <td><a :href="link.url" target="_blank">{{link.url | limitString}}</a></td>
                                     <td><span class="badge bg-gray">{{link.source}}</span></td>
                                     <td v-html="transformStatus(link.status)"></td>
                                 </tr>
                                 </tbody>
+                                <div v-else class="text-center">
+                                    <b>No Data Found.</b>
+                                </div>
                             </table>
                         </div>
                         <div class="box-footer clearfix">
-                            &nbsp<small><b>{{total}} Found</b></small> / <b><small>Page {{page}} of {{totalPage}}</small></b>
+                            &nbsp;
+                            <span class="label label-default"><small>{{total}} Found</small></span>
+                            <span class="label label-default"><small>Page {{page}} of {{totalPage}}</small></span>
+                            <span v-if="source.selected" class="label label-default"><small>{{source.selected}}</small></span>
+                            <span v-if="status.selected" class="label label-default"><small>{{status.selected | statusString}}</small></span>
                             <div class="pull-right">
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    <li @click="prev"><span class="fa fa-arrow-left"></span></li>
-                                    <li @click="next"><span class="fa fa-arrow-right"></span></li>
-                                </ul>
+                                <div class="btn-group">
+                                    <button :class="{ disabled: page === 1 }" class="btn btn-sm btn-default btn-flat" @click="prev"><i class="fa fa-arrow-left"></i></button>
+                                    <button :class="{ disabled: page === totalPage }" class="btn btn-sm btn-default btn-flat" @click="next"><i class="fa fa-arrow-right"></i></button>
+                                </div>
                             </div>
                         </div>
                         <div v-if="loading" class="overlay">
@@ -63,10 +68,17 @@
     import LinkRepo from '../../repository/link_repo';
     import SourceRepo from '../../repository/source_repo';
     import Select2 from '../../components/form/Select';
+    const statuses = {
+        10: 'new',
+        20: 'running',
+        30: 'completed',
+        35: 'invalid',
+        40: 'fail'
+    };
     export default {
         data: () => ({
             links: [],
-            loading: false,
+            search: null,
             source: {
                 selected: null,
                 options: []
@@ -74,7 +86,11 @@
             status: {
                 selected: null,
                 options: [
-                    { value: 10, text: 'New' }
+                    { value: 10, text: 'New' },
+                    { value: 20, text: 'Running' },
+                    { value: 30, text: 'Completed' },
+                    { value: 35, text: 'Invalid' },
+                    { value: 40, text: 'Failed' }
                 ]
             },
             limit: {
@@ -88,7 +104,8 @@
             },
             total: 0,
             page: 1,
-            totalPage: 1
+            totalPage: 1,
+            loading: false
         }),
         components: {
             Layout,
@@ -105,15 +122,18 @@
                     case 40: return '<span class="badge bg-red">failed</span>';
                 }
             },
-            async loadData(page = 1, limit = 10) {
-                const { data } = await LinkRepo.getLinks(page, limit);
+            async loadData(page = 1, limit = 10, params = {}) {
+                const { data } = await LinkRepo.getLinks(page, limit, params);
                 const { content: { data: links, total, last_page: totalPage } } = data;
                 this.links = links;
                 this.total = total;
                 this.totalPage = totalPage;
+                if (total === 0) this.page = 1;
             },
             async reloadData() {
-                await this.loadData(this.page, this.limit.selected);
+                this.switchLoading();
+                await this.loadData(this.page, this.limit.selected, { search: this.search, status: this.status.selected, source: this.source.selected });
+                this.switchLoading();
             },
             selectChanged ({ name, value }){
                 switch (name) {
@@ -144,19 +164,23 @@
                     this.page += -1;
                     await this.reloadData();
                 }
+            },
+            switchLoading(){
+                this.loading = !this.loading;
             }
         },
         filters: {
-            limitString: (value) => value.substr(0, 30) + '...'
+            limitString: (value) => value.substr(0, 30) + (value.length > 30 ? '...' : ''),
+            statusString: (status) => statuses[status]
         },
         async mounted(){
-            this.loading = true;
+            this.switchLoading();
             await SourceRepo.getAllSource()
                 .then(({ data }) => {
                     this.source.options = data.content.map(item => ({ value: item.alias, text: item.alias }));
                 });
             await this.loadData(this.page, this.limit.selected);
-            this.loading = false;
+            this.switchLoading();
         }
     }
 </script>

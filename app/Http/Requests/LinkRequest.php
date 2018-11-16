@@ -18,7 +18,10 @@ class LinkRequest extends FormRequest
     {
         return [
             'page' => 'required|numeric',
-            'limit' => 'required|numeric'
+            'limit' => 'required|numeric',
+            'search' => 'nullable|string',
+            'status' => 'nullable|numeric',
+            'source' => 'nullable|string'
         ];
     }
 
