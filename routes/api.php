@@ -10,6 +10,7 @@ Route::get('/profile', 'MainController@profile');
 
 Route::group(['prefix' => 'home'], function (){
     Route::get('/summary', 'HomeController@summary');
+    Route::get('/raw-chart', 'HomeController@raw_chart');
 });
 
 Route::group(['prefix' => 'schedule'], function (){

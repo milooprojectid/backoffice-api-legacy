@@ -17,8 +17,8 @@
                 </info-box>
             </div>
             <div class="row">
-                <div class="col-md-6"><chart/></div>
-                <!--<div class="col-md-6"><calendar/></div>-->
+                <div class="col-md-6"><bar-chart></bar-chart></div>
+                <div class="col-md-6"><donut-chart></donut-chart></div>
             </div>
         </div>
     </layout>
@@ -28,7 +28,8 @@
     import InfoBox from '../../components/InfoBox';
     import Layout from '../layouts/Default';
     import HomeRepo from '../../repository/home_repo';
-    import Chart from '../../components/Chart';
+    import BarChart from '../../components/chart/Bar';
+    import DonutChart from '../../components/chart/Line';
     import Listener from '../../utils/listener';
     export default {
         data:() => ({
@@ -52,7 +53,8 @@
             PageHeader,
             InfoBox,
             Layout,
-            Chart
+            BarChart,
+            DonutChart
         },
         methods:{
             calculateProgress: (a, b) => (100 / parseFloat(a)) * parseFloat(b),

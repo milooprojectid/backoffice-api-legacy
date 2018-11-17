@@ -43,5 +43,4 @@ class HomeController extends Controller
 
         return api_response('summary data retrieved', $datas);
     }
-
 }

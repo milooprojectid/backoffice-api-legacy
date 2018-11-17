@@ -1,12 +1,12 @@
 <template>
-        <div class="box box-warning">
-            <!--<div class="box-header with-border">-->
-                <!--<h3 class="box-title">Example Chart</h3>-->
-            <!--</div>-->
-            <div class="box-body">
-                <apex-charts type="bar" :options="options" :series="series"></apex-charts>
-            </div>
+    <div class="box box-warning">
+        <!--<div class="box-header with-border">-->
+        <!--<h3 class="box-title">Example Chart</h3>-->
+        <!--</div>-->
+        <div class="box-body">
+            <apex-charts type="line" :options="options" :series="series"></apex-charts>
         </div>
+    </div>
 </template>
 
 <script>
@@ -31,7 +31,3 @@
         })
     }
 </script>
-
-<style scoped>
-
-</style>
