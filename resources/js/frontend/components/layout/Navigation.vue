@@ -18,7 +18,7 @@
                     <a><i class="fa fa-database"></i> <span>Raw Data</span></a>
                 </router-link>
 
-                <router-link to="/corpuses" active-class="active" tag="li" exact>
+                <router-link to="/corpuses" active-class="active" tag="li" class="disabled" exact>
                     <a><i class="fa fa-book"></i> <span>Corpus</span></a>
                 </router-link>
 

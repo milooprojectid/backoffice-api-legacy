@@ -29,6 +29,6 @@ class SourceController extends Controller
             $sources = $sources->paginate((int)$request->query('limit'));
         }
 
-        return api_response('all sources data retrieved', $sources);
+        return api_response('source datas retrieved', $sources);
     }
 }

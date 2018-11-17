@@ -14,12 +14,15 @@ class RawSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
-        for ($i = 0; $i < 100; $i++){
-            Raw::create([
-                "source" => "detik",
-			    "content" => $faker->paragraph,
-			    "status" => 0
-            ]);
+        $sources = ['detik', 'kompas', 'cnn', 'kumparan', 'viva'];
+        foreach ($sources as $source){
+            for ($i = 0; $i < 25; $i++){
+                Raw::create([
+                    "source" => $source,
+                    "content" => $faker->randomHtml(),
+                    "status" => 10
+                ]);
+            }
         }
     }
 }

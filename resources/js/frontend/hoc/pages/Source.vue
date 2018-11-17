@@ -1,6 +1,6 @@
 <template>
     <layout>
-        <page-header name="Source"></page-header>
+        <page-header name="Sources"></page-header>
         <div class="content">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">

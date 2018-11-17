@@ -29,6 +29,6 @@ class LinkController extends Controller
 
         $links = $links->paginate((int)$request->query('limit'));
 
-        return api_response('links data retrieved', $links);
+        return api_response('link datas retrieved', $links);
     }
 }

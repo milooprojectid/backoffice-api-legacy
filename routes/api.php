@@ -25,3 +25,7 @@ Route::group(['prefix' => 'sources'], function (){
 Route::group(['prefix' => 'links'], function (){
     Route::get('/', 'LinkController@index');
 });
+
+Route::group(['prefix' => 'raws'], function (){
+    Route::get('/', 'RawController@index');
+});

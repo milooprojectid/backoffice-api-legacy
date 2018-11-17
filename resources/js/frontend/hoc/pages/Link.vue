@@ -1,6 +1,6 @@
 <template>
     <layout>
-        <page-header name="Link"></page-header>
+        <page-header name="Links"></page-header>
         <div class="content">
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
@@ -74,7 +74,7 @@
         20: 'running',
         30: 'completed',
         35: 'invalid',
-        40: 'fail'
+        40: 'failed'
     };
     export default {
         mixins: [PaginateMix],
@@ -103,11 +103,11 @@
         methods:{
             transformStatus: (status) => {
                 switch (status) {
-                    case 10: return '<span class="badge bg-blue">new</span>';
-                    case 20: return '<span class="badge bg-yellow">running</span>';
-                    case 30: return '<span class="badge bg-green">completed</span>';
-                    case 35: return '<span class="badge bg-black">invalid</span>';
-                    case 40: return '<span class="badge bg-red">failed</span>';
+                    case 10: return '<span class="badge bg-blue-gradient">new</span>';
+                    case 20: return '<span class="badge bg-yellow-gradient">running</span>';
+                    case 30: return '<span class="badge bg-green-gradient">completed</span>';
+                    case 35: return '<span class="badge bg-black-gradient">invalid</span>';
+                    case 40: return '<span class="badge bg-red-gradient">failed</span>';
                 }
             },
             async loadData(page = 1, limit = 10, params = {}) {

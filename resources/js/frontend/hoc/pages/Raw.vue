@@ -1,10 +1,61 @@
 <template>
     <layout>
-        <page-header name="Raw Data"></page-header>
+        <page-header name="Raw Datas"></page-header>
         <div class="content">
             <div class="row">
-                <div class="col-md-12">
-                    <h5>list of raw data</h5>
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="table_search" class="form-control pull-right" placeholder="search raws" v-model="search" @keyup.enter="reloadData">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default btn-flat" data-toggle="collapse" data-target="#options" ref="btnopt"><i class="fa fa-gear"></i></button>
+                                    <button type="submit" class="btn btn-default btn-flat" @click="reloadData"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                            <div class="collapse" id="options">
+                                <br>
+                                <select2 name="source" :options="source.options" @select-changed="selectChanged"></select2>
+                                <select2 name="status" :options="status.options" @select-changed="selectChanged"></select2>
+                                <select2 name="limit" :options="limit.options" @select-changed="selectChanged"></select2>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-striped">
+                                <tbody v-if="total !== 0">
+                                <tr>
+                                    <th>id</th>
+                                    <th>source</th>
+                                    <th>status</th>
+                                </tr>
+                                <tr v-for="raw in raws">
+                                    <td>{{raw._id}}</td>
+                                    <td><span class="badge bg-gray">{{raw.source}}</span></td>
+                                    <td v-html="transformStatus(raw.status)"></td>
+                                </tr>
+                                </tbody>
+                                <div v-else class="text-center">
+                                    <b>No Data Found.</b>
+                                </div>
+                            </table>
+                        </div>
+                        <div class="box-footer clearfix">
+                            &nbsp;
+                            <span class="label label-default"><small>{{total}} Found</small></span>
+                            <span class="label label-default"><small>Page {{page}} of {{totalPage}}</small></span>
+                            <span v-if="source.selected" class="label label-default"><small>{{source.selected}}</small></span>
+                            <span v-if="status.selected" class="label label-default"><small>{{status.selected | statusString}}</small></span>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button :class="{ disabled: page === 1 }" class="btn btn-sm btn-default btn-flat" @click="prev"><i class="fa fa-arrow-left"></i></button>
+                                    <button :class="{ disabled: page === totalPage }" class="btn btn-sm btn-default btn-flat" @click="next"><i class="fa fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="loading" class="overlay">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -14,10 +65,91 @@
 <script>
     import PageHeader from '../../components/PageHeader';
     import Layout from '../layouts/Default';
+    import RawRepo from '../../repository/raw_repo';
+    import SourceRepo from '../../repository/source_repo';
+    import Select2 from '../../components/form/Select';
+    import PaginateMix from '../../utils/mixins/pagination';
+    const statuses = {
+        10: 'new',
+        20: 'running',
+        30: 'completed',
+        40: 'failed'
+    };
     export default {
+        mixins: [PaginateMix],
+        data: () => ({
+            raws: [],
+            status: {
+                selected: null,
+                options: [
+                    { value: 10, text: 'New' },
+                    { value: 20, text: 'Running' },
+                    { value: 30, text: 'Completed' },
+                    { value: 40, text: 'Failed' }
+                ]
+            },
+            source: {
+                selected: null,
+                options: []
+            },
+        }),
         components: {
             Layout,
-            PageHeader
+            PageHeader,
+            Select2
+        },
+        methods:{
+            transformStatus: (status) => {
+                switch (status) {
+                    case 10: return '<span class="badge bg-blue-gradient">new</span>';
+                    case 20: return '<span class="badge bg-yelow-gradient">running</span>';
+                    case 30: return '<span class="badge bg-green-gradient">completed</span>';
+                    case 40: return '<span class="badge bg-red-gradient">failed</span>';
+                }
+            },
+            async loadData(page = 1, limit = 10, params = {}) {
+                const { data } = await RawRepo.getRaws(page, limit, params);
+                const { content: { data: raws, total, last_page: totalPage } } = data;
+                this.raws = raws;
+                this.total = total;
+                this.totalPage = totalPage;
+                if (total === 0) this.page = 1;
+            },
+            async reloadData() {
+                this.switchLoading();
+                await this.loadData(this.page, this.limit.selected, { search: this.search, status: this.status.selected , source: this.source.selected });
+                this.switchLoading();
+            },
+            selectChanged ({ name, value }){
+                switch (name) {
+                    case 'source': {
+                        this.source.selected = value;
+                        break;
+                    }
+
+                    case 'status': {
+                        this.status.selected = value;
+                        break;
+                    }
+
+                    case 'limit': {
+                        this.limit.selected = value;
+                        break;
+                    }
+                }
+            }
+        },
+        filters: {
+            statusString: (status) => statuses[status]
+        },
+        async mounted(){
+            this.switchLoading();
+            await SourceRepo.getAllSources()
+                .then(({ data }) => {
+                    this.source.options = data.content.map(item => ({ value: item.alias, text: item.alias }));
+                });
+            await this.loadData(this.page, this.limit.selected);
+            this.switchLoading();
         }
     }
 </script>
