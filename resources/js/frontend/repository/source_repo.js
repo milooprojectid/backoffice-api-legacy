@@ -1,7 +1,10 @@
-import http from '../http';
+import http from '../utils/http';
 
-const getAllSource = () => http.get('/sources/all');
+const getAllSources = () => http.get('/sources', { params: { all: 1 } });
+
+const getSources = (page = 1, limit = 10, { search, status }) => http.get('/sources', { params: { page, limit, search, status } });
 
 export default {
-    getAllSource
+    getAllSources,
+    getSources
 };

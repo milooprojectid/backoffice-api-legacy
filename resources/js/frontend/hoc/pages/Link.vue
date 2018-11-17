@@ -68,6 +68,7 @@
     import LinkRepo from '../../repository/link_repo';
     import SourceRepo from '../../repository/source_repo';
     import Select2 from '../../components/form/Select';
+    import PaginateMix from '../../utils/mixins/pagination';
     const statuses = {
         10: 'new',
         20: 'running',
@@ -76,9 +77,9 @@
         40: 'fail'
     };
     export default {
+        mixins: [PaginateMix],
         data: () => ({
             links: [],
-            search: null,
             source: {
                 selected: null,
                 options: []
@@ -92,20 +93,7 @@
                     { value: 35, text: 'Invalid' },
                     { value: 40, text: 'Failed' }
                 ]
-            },
-            limit: {
-                selected: 10,
-                options: [
-                    { value: 5, text: 5 },
-                    { value: 10, text: 10 },
-                    { value: 15, text: 15 },
-                    { value: 20, text: 20 }
-                ]
-            },
-            total: 0,
-            page: 1,
-            totalPage: 1,
-            loading: false
+            }
         }),
         components: {
             Layout,
@@ -152,21 +140,6 @@
                         break;
                     }
                 }
-            },
-            async next(){
-                if (this.page !== this.totalPage){
-                    this.page += 1;
-                    await this.reloadData();
-                }
-            },
-            async prev(){
-                if (this.page > 1){
-                    this.page += -1;
-                    await this.reloadData();
-                }
-            },
-            switchLoading(){
-                this.loading = !this.loading;
             }
         },
         filters: {
@@ -175,7 +148,7 @@
         },
         async mounted(){
             this.switchLoading();
-            await SourceRepo.getAllSource()
+            await SourceRepo.getAllSources()
                 .then(({ data }) => {
                     this.source.options = data.content.map(item => ({ value: item.alias, text: item.alias }));
                 });

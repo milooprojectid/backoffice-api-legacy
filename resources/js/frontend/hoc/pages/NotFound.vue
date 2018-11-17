@@ -1,6 +1,8 @@
 <template>
-    <layout>
+    <!--<layout>-->
         <section class="content">
+            <br><br><br><br>
+            <br><br><br><br>
             <div class="error-page">
                 <h2 class="headline text-yellow"> 404</h2>
 
@@ -25,7 +27,7 @@
                 </div>
             </div>
         </section>
-    </layout>
+    <!--</layout>-->
 </template>
 
 <script>

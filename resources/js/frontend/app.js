@@ -5,7 +5,7 @@ import VueApexCharts from 'vue-apexcharts';
 import Notification from 'vue-notification';
 
 import router from './router';
-import http from './http';
+import http from './utils/http';
 import store from './store';
 
 Vue.use(VueRouter);

@@ -19,7 +19,7 @@ Route::group(['prefix' => 'schedule'], function (){
 
 
 Route::group(['prefix' => 'sources'], function (){
-    Route::get('/all', 'SourceController@all');
+    Route::get('/', 'SourceController@index');
 });
 
 Route::group(['prefix' => 'links'], function (){

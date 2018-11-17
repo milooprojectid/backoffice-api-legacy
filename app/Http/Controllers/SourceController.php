@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SourceRequest;
 use App\Models\Source;
-//use Illuminate\Http\Request;
 
 class SourceController extends Controller
 {
@@ -12,7 +12,23 @@ class SourceController extends Controller
         $this->middleware('api');
     }
 
-    public function all(){
-        return api_response('all source data retrieved', Source::all());
+    public function index(SourceRequest $request){
+        $sources = (new Source())->newQuery();
+
+        if ($request->has('search') && $request->input('search') != null){
+            $sources->where('alias', 'like', '%'.$request->input('search').'%');
+        }
+
+        if ($request->has('status') && $request->input('status') != null){
+            $sources->where('status', (int)$request->input('status'));
+        }
+
+        if ($request->has('all')){
+            $sources = $sources->get();
+        } else {
+            $sources = $sources->paginate((int)$request->query('limit'));
+        }
+
+        return api_response('all sources data retrieved', $sources);
     }
 }

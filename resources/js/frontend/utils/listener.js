@@ -1,4 +1,4 @@
-import Pusher from '../plugins/pusher';
+import Pusher from './plugins/pusher';
 
 class Listener {
     constructor(channel){

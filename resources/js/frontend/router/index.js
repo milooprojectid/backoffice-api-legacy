@@ -29,26 +29,26 @@ export default new Router({
             beforeEnter: checkAuth
         },
         {
-            path: '/source',
-            name: 'source',
+            path: '/sources',
+            name: 'sources',
             component: Source,
             beforeEnter: checkAuth
         },
         {
-            path: '/link',
-            name: 'link',
+            path: '/links',
+            name: 'links',
             component: Link,
             beforeEnter: checkAuth
         },
         {
-            path: '/raw',
-            name: 'raw',
+            path: '/raws',
+            name: 'raws',
             component: Raw,
             beforeEnter: checkAuth
         },
         {
-            path: '/corpus',
-            name: 'corpus',
+            path: '/corpuses',
+            name: 'corpuses',
             component: Corpus,
             beforeEnter: checkAuth
         },

@@ -14,7 +14,8 @@ class SourceSeeder extends Seeder
     public function run()
     {
 
-        $sources = ["detik"
+        $sources = [
+            "detik"
             ,"babe"
             ,"okezone"
             ,"kompas"
@@ -39,7 +40,8 @@ class SourceSeeder extends Seeder
             ,"wartaekonomi"
             ,"jawapos"
             ,"katadata"
-            ,"pikiran-rakyat"];
+            ,"pikiran-rakyat"
+        ];
 
 //        $faker = Factory::create();
         foreach ($sources as $source){
@@ -47,7 +49,7 @@ class SourceSeeder extends Seeder
                 "name" => $source,
 			    "alias" => $source,
 			    "url" => "http://" . $source . ".id",
-                "active" => true
+                "status" => 1
             ]);
         }
     }
