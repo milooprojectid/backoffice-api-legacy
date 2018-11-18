@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LinkSeeder::class);
         $this->call(SourceSeeder::class);
         $this->call(RawSeeder::class);
+        $this->call(ConfSeeder::class);
     }
 }

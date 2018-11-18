@@ -25,6 +25,7 @@ Route::group(['prefix' => 'sources'], function (){
 
 Route::group(['prefix' => 'links'], function (){
     Route::get('/', 'LinkController@index');
+    Route::post('/{id}/dispatch', 'LinkController@dispatch_job');
 });
 
 Route::group(['prefix' => 'raws'], function (){

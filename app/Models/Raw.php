@@ -33,6 +33,14 @@ class Raw extends Model
         return $query->where('status', $this->statuses['completed']);
     }
 
+    public function scopeDispatchable($query){
+        return $query->where('status', '!=', $this->statuses['running'])->where('status', '!=', $this->statuses['completed']);
+    }
+
+    public function scopeOldest($query){
+        return $query->orderBy('created_at', 'desc');
+    }
+
     // --
 
     // Public Method

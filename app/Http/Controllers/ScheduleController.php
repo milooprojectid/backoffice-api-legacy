@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CrawlJob;
 use App\Jobs\ScrapJob;
+use App\Models\Conf;
 use App\models\Link;
 use App\Models\Raw;
 
@@ -14,38 +15,37 @@ class ScheduleController extends Controller
     public function __construct()
     {
         $this->middleware('guard');
-        $this->status = 1;
     }
 
     public function crawl(){
-        $runningJob = Link::running()->count();
-        $maxCrawlJob = 5;
+        if (!Conf::crawlerStatus()) return api_response('crawler is inactive');
 
+        $runningJob = Link::running()->count();
+        $maxCrawlJob = (int)Conf::crawlerJobLimit()->value;
         $allowedJob = $maxCrawlJob - $runningJob;
 
-        if ($allowedJob > 0 && $this->status) {
-            $links = Link::new()->take($allowedJob)->get();
+        if ($allowedJob > 0) {
+            $links = Link::new()->oldest()->take($allowedJob)->get();
             foreach ($links as $link){
                 CrawlJob::dispatch($link)->onQueue('crawler');
             }
         }
 
-        return api_response(count($links) . ' job(s) dispatched');
+        return api_response(count($links) . ' crawl job(s) dispatched');
     }
 
     public function scrap(){
         $runningJob = Raw::running()->count();
-        $maxScrapJob = 5;
-
+        $maxScrapJob = (int)Conf::scrapperJobLimit()->value;
         $allowedJob = $maxScrapJob - $runningJob;
 
         if ($allowedJob > 0 && $this->status) {
-            $raws = Raw::new()->take($allowedJob)->get();
+            $raws = Raw::new()->oldest()->take($allowedJob)->get();
             foreach ($raws as $raw){
                 ScrapJob::dispatch($raw)->onQueue('scrapper');
             }
         }
 
-        return api_response(count($raws) . ' job(s) dispatched');
+        return api_response(count($raws) . ' scrap job(s) dispatched');
     }
 }

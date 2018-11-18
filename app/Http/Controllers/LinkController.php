@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LinkRequest;
+use App\Jobs\CrawlJob;
 use App\models\Link;
 
 class LinkController extends Controller
@@ -30,5 +31,16 @@ class LinkController extends Controller
         $links = $links->paginate((int)$request->query('limit'));
 
         return api_response('link datas retrieved', $links);
+    }
+
+    public function dispatch_job($id)
+    {
+        $link = Link::where('_id', $id)->dispatchable()->first();
+
+        if (!$link) return api_response('not eigible for dispatch');
+
+        CrawlJob::dispatch($link)->onQueue('crawler');
+
+        return api_response('crawl job dispatched');
     }
 }

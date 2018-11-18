@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RawRequest;
+use App\Jobs\ScrapJob;
 use App\Models\Raw;
 
 class RawController extends Controller
@@ -30,4 +31,17 @@ class RawController extends Controller
         $raws = $raws->paginate((int)$request->query('limit'));
 
         return api_response('all raw datass retrieved', $raws);
-    }}
+    }
+
+    public function dispatch_job($id)
+    {
+        $raw = Raw::where('_id', $id)->dispatchable()->first();
+
+        if (!$raw) return api_response('not eigible for dispatch');
+
+        ScrapJob::dispatch($raw)->onQueue('scrapper');
+
+        return api_response('scrap job dispatched');
+    }
+
+}
