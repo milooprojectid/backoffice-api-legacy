@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Conf;
 use App\Models\Raw;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -23,16 +22,24 @@ class ScrapJob implements ShouldQueue
     public function __construct(Raw $raw)
     {
         $this->raw = $raw;
-        $this->baseUrl = Conf::scrapperServer();
     }
 
     public function handle()
     {
-        $http = new Client(['base_uri' => $this->baseUrl->value]);
+        $http = new Client(['base_uri' => env('SCRAPPER_URL')]);
         $this->raw->setRunning();
 
         try {
-            $this->response = $http->request('POST', '/scrap');
+            $options = [
+                'body' => json_encode([
+                    'id' => $this->raw->_id
+                ]),
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'secret' => env('SCRAPPER_SECRET')
+                ]
+            ];
+            $this->response = $http->post('/scrap', $options);
         }
 
         catch (Exception $e){

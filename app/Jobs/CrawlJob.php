@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Conf;
 use App\models\Link;
 use GuzzleHttp\Client;
 use Exception;
@@ -17,22 +16,30 @@ class CrawlJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $link;
-    protected $baseUrl;
     protected $response;
 
     public function __construct(Link $link)
     {
         $this->link = $link;
-        $this->baseUrl = Conf::scrapperServer();
     }
 
     public function handle()
     {
-        $http = new Client(['base_uri' => $this->baseUrl->value]);
+        $http = new Client(['base_uri' => env('SCRAPPER_URL')]);
         $this->link->setRunning();
 
         try {
-            $this->response = $http->post('/crawl');
+            $options = [
+                'body' => json_encode([
+                    'source' => $this->link->source,
+                    'url' => $this->link->url
+                ]),
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'secret' => env('SCRAPPER_SECRET')
+                ]
+            ];
+            $this->response = $http->post('/crawl', $options);
         }
 
         catch (Exception $e){
