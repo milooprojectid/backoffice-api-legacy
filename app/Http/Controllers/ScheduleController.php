@@ -24,14 +24,16 @@ class ScheduleController extends Controller
         $maxCrawlJob = (int)Conf::crawlerJobLimit()->value;
         $allowedJob = $maxCrawlJob - $runningJob;
 
+        $mes = null;
         if ($allowedJob > 0) {
             $links = Link::new()->oldest()->take($allowedJob)->get();
             foreach ($links as $link){
                 CrawlJob::dispatch($link)->onQueue('crawler');
             }
+            $mes = count($links);
         }
 
-        return api_response(count($links) . ' crawl job(s) dispatched');
+        return api_response(($mes ? $mes : 'no') . ' crawl job(s) dispatched');
     }
 
     public function scrap(){
@@ -39,13 +41,15 @@ class ScheduleController extends Controller
         $maxScrapJob = (int)Conf::scrapperJobLimit()->value;
         $allowedJob = $maxScrapJob - $runningJob;
 
+        $mes = null;
         if ($allowedJob > 0 && $this->status) {
             $raws = Raw::new()->oldest()->take($allowedJob)->get();
             foreach ($raws as $raw){
                 ScrapJob::dispatch($raw)->onQueue('scrapper');
             }
+            $mes = count($raws);
         }
 
-        return api_response(count($raws) . ' scrap job(s) dispatched');
+        return api_response(($mes ?  $mes : 'no') . ' scrap job(s) dispatched');
     }
 }

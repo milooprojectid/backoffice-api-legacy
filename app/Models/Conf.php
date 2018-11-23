@@ -29,4 +29,9 @@ class Conf extends Model
     {
         return static::where('key', 'scrapper_max_job')->first();
     }
+
+    public static function scrapperServer()
+    {
+        return static::where('key', 'scrapper_server')->first();
+    }
 }

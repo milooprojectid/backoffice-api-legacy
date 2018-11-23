@@ -15,7 +15,8 @@ class Raw extends Model
     private $statuses = [
         "new" => 10,
         "running" => 20,
-        "completed" => 30
+        "completed" => 30,
+        "failed" => 40
     ];
     // --
 
@@ -50,6 +51,10 @@ class Raw extends Model
 
     public function setCompleted(){
         return $this->update(['status' => $this->statuses["completed"]]);
+    }
+
+    public function setFailed(){
+        return $this->update(['status' => $this->statuses["failed"]]);
     }
     // --
 }
