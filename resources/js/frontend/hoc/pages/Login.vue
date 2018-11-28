@@ -2,7 +2,7 @@
         <div class="login-box">
             <div class="login-logo">
                 <img src="/img/logo.png" class="img-responsive center-block">
-                <h4><b>Milo Backoffice</b></h4>
+                <!--<h4><b>Milo Backoffice</b></h4>-->
             </div>
 
             <div class="login-box-body">

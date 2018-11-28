@@ -32,7 +32,8 @@ class CrawlJob implements ShouldQueue
             $options = [
                 'body' => json_encode([
                     'source' => $this->link->source,
-                    'url' => $this->link->url
+                    'url' => $this->link->sourceRelation->url,
+                    'target_url' => $this->link->url
                 ]),
                 'headers' => [
                     'Content-Type' => 'application/json',

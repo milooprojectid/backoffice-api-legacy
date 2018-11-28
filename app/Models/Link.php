@@ -61,4 +61,10 @@ class Link extends Model
         return $this->update(['status' => $this->statuses["failed"]]);
     }
     // --
+
+    // Relationship
+    public function sourceRelation(){
+        return $this->belongsTo(Source::class, 'source', 'alias');
+    }
+    // --
 }
