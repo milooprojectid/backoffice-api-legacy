@@ -1,6 +1,7 @@
 import router from '../../router';
 import moment from 'moment';
 import Listener from '../../utils/listener';
+import Vue from 'vue';
 
 const state = {
     token: null,
@@ -39,8 +40,8 @@ const actions = {
         router.replace('/login'); // hard reload
     },
     login({ commit }, { token, refreshToken, expiresIn }) {
-        commit('setToken', { token, refreshToken, expiresAt });
         const expiresAt = moment().add(expiresIn, 'seconds').format();
+        commit('setToken', { token, refreshToken, expiresAt });
         const now = moment().format();
         const diff = moment(expiresAt).diff(moment(now), 'seconds') * 1000;
         setTimeout(() => {
@@ -52,7 +53,10 @@ const actions = {
 
         // Register listener
         const listener = new Listener('app');
-        listener.bind('notification', this.popNotification);
+        listener.bind('notification', inputs => {
+            Vue.prototype.$notify({ ...inputs, group: "event",  width: 400 });
+        });
+
         // --
 
         router.replace('/home');

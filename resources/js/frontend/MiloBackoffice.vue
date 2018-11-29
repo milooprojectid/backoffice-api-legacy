@@ -10,17 +10,6 @@
     import moment from 'moment';
     import Listener from './utils/listener';
     export default {
-        methods:{
-            popNotification({ type, title, text }) {
-                this.$notify({
-                    type,
-                    title,
-                    text,
-                    group: "event",
-                    width: 400
-                });
-            }
-        },
         mounted() {
             const isAuthenticated = store.getters.getToken;
             if (isAuthenticated) {
@@ -45,7 +34,9 @@
 
                 // Global Listener
                 const listener = new Listener('app');
-                listener.bind('notification', this.popNotification);
+                listener.bind('notification', inputs => {
+                    this.$notify({ ...inputs, group: "event",  width: 400 });
+                });
                 // --
             }
 

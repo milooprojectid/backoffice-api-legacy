@@ -34044,6 +34044,11 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_listener__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
 
 
 
@@ -34096,8 +34101,8 @@ var actions = {
             refreshToken = _ref4.refreshToken,
             expiresIn = _ref4.expiresIn;
 
-        commit('setToken', { token: token, refreshToken: refreshToken, expiresAt: expiresAt });
         var expiresAt = __WEBPACK_IMPORTED_MODULE_1_moment___default()().add(expiresIn, 'seconds').format();
+        commit('setToken', { token: token, refreshToken: refreshToken, expiresAt: expiresAt });
         var now = __WEBPACK_IMPORTED_MODULE_1_moment___default()().format();
         var diff = __WEBPACK_IMPORTED_MODULE_1_moment___default()(expiresAt).diff(__WEBPACK_IMPORTED_MODULE_1_moment___default()(now), 'seconds') * 1000;
         setTimeout(function () {
@@ -34109,7 +34114,10 @@ var actions = {
 
         // Register listener
         var listener = new __WEBPACK_IMPORTED_MODULE_2__utils_listener__["a" /* default */]('app');
-        listener.bind('notification', this.popNotification);
+        listener.bind('notification', function (inputs) {
+            __WEBPACK_IMPORTED_MODULE_3_vue___default.a.prototype.$notify(_extends({}, inputs, { group: "event", width: 400 }));
+        });
+
         // --
 
         __WEBPACK_IMPORTED_MODULE_0__router__["a" /* default */].replace('/home');
@@ -48365,20 +48373,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         login: function login() {
             var _this = this;
 
-            this.loading = true;
-            this.$http.post("/login", this.user).then(function (res) {
-                _this.$store.dispatch("login", res.data.content);
-            }).catch(function (err) {
-                _this.loading = false;
-                _this.user.password = null;
-                _this.$notify({
-                    type: "error",
-                    title: "Whoops",
-                    text: "invalid credential",
-                    group: "event",
-                    width: 900
+            if (this.user.username && this.user.password) {
+                this.loading = true;
+                this.$http.post("/login", this.user).then(function (res) {
+                    _this.$store.dispatch("login", res.data.content);
+                }).catch(function (err) {
+                    _this.loading = false;
+                    _this.user.password = null;
+                    _this.$notify({
+                        type: "error",
+                        title: "Whoops",
+                        text: "invalid credential",
+                        group: "event",
+                        width: 900
+                    });
                 });
-            });
+            }
         }
     }
 });
@@ -48761,6 +48771,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_listener__ = __webpack_require__(146);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -48773,21 +48785,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    methods: {
-        popNotification: function popNotification(_ref) {
-            var type = _ref.type,
-                title = _ref.title,
-                text = _ref.text;
-
-            this.$notify({
-                type: type,
-                title: title,
-                text: text,
-                group: "event",
-                width: 400
-            });
-        }
-    },
     mounted: function mounted() {
         var _this = this;
 
@@ -48814,7 +48811,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             // Global Listener
             var listener = new __WEBPACK_IMPORTED_MODULE_2__utils_listener__["a" /* default */]('app');
-            listener.bind('notification', this.popNotification);
+            listener.bind('notification', function (inputs) {
+                _this.$notify(_extends({}, inputs, { group: "event", width: 400 }));
+            });
             // --
         }
     }

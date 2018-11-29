@@ -37,23 +37,25 @@
         }),
         methods: {
             login() {
-                this.loading = true;
-                this.$http
-                    .post("/login", this.user)
-                    .then(res => {
-                        this.$store.dispatch("login", res.data.content);
-                    })
-                    .catch(err => {
-                        this.loading = false;
-                        this.user.password = null;
-                        this.$notify({
-                            type: "error",
-                            title: "Whoops",
-                            text: "invalid credential",
-                            group: "event",
-                            width: 900
+                if (this.user.username && this.user.password) {
+                    this.loading = true;
+                    this.$http
+                        .post("/login", this.user)
+                        .then(res => {
+                            this.$store.dispatch("login", res.data.content);
+                        })
+                        .catch(err => {
+                            this.loading = false;
+                            this.user.password = null;
+                            this.$notify({
+                                type: "error",
+                                title: "Whoops",
+                                text: "invalid credential",
+                                group: "event",
+                                width: 900
+                            });
                         });
-                    });
+                }
             }
         }
     };
