@@ -1,5 +1,6 @@
 import router from '../../router';
 import moment from 'moment';
+import Listener from '../../utils/listener';
 
 const state = {
     token: null,
@@ -38,18 +39,23 @@ const actions = {
         router.replace('/login'); // hard reload
     },
     login({ commit }, { token, refreshToken, expiresIn }) {
-        const expiresAt = moment().add(expiresIn, 'seconds').format();
-
         commit('setToken', { token, refreshToken, expiresAt });
+        const expiresAt = moment().add(expiresIn, 'seconds').format();
+        const now = moment().format();
+        const diff = moment(expiresAt).diff(moment(now), 'seconds') * 1000;
+        setTimeout(() => {
+            // notification should be placed here
+            setTimeout(() => {
+                commit('flushToken');
+            }, 750);
+        }, diff);
 
-        // const now = moment().format();
-        // const diff = moment(expiresAt).diff(moment(now), 'seconds') * 1000;
-        // setTimeout(() => {
-        //     commit('flushToken');
-        //     router.replace('/login');  // hard reload
-        // }, diff);
+        // Register listener
+        const listener = new Listener('app');
+        listener.bind('notification', this.popNotification);
+        // --
 
-        router.replace('/home'); // hard reload
+        router.replace('/home');
     }
 };
 

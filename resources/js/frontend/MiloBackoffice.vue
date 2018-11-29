@@ -1,14 +1,26 @@
 <template>
     <div>
-        <notifications group="event" position="top center" :max="1"/>
-        <router-view></router-view>
+        <notifications group="event" position="bottom right" :max="10" />
+        <router-view />
     </div>
 </template>
 
 <script>
     import store from "./store";
     import moment from 'moment';
+    import Listener from './utils/listener';
     export default {
+        methods:{
+            popNotification({ type, title, text }) {
+                this.$notify({
+                    type,
+                    title,
+                    text,
+                    group: "event",
+                    width: 400
+                });
+            }
+        },
         mounted() {
             const isAuthenticated = store.getters.getToken;
             if (isAuthenticated) {
@@ -30,7 +42,14 @@
                         }, 750);
                     }, diff);
                 }
+
+                // Global Listener
+                const listener = new Listener('app');
+                listener.bind('notification', this.popNotification);
+                // --
             }
+
+
         }
     };
 </script>
