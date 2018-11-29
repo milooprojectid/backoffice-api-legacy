@@ -27,7 +27,7 @@ class ScheduleController extends Controller
 
         $count = 0;
         if ($allowedJob > 0) {
-            $links = Link::new()->oldest()->take($allowedJob)->get();
+            $links = Link::new()->oldest()->sourceIsActive()->take($allowedJob)->get();
             foreach ($links as $link){
                 CrawlJob::dispatch($link)->onQueue('crawler');
             }

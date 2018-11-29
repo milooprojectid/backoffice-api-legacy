@@ -41,6 +41,12 @@ class Link extends Model
         return $query->orderBy('created_at', 'desc');
     }
 
+    public function scopeSourceIsActive($query){
+        return $query->whereHas('sourceRelation', function ($q){
+           $q->where('status', 0);
+        });
+    }
+
     // --
 
 
