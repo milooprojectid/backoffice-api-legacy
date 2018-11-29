@@ -39,7 +39,7 @@ class LinkController extends Controller
 
         if (!$link) return api_response('not eigible for dispatch');
 
-        CrawlJob::dispatch($link)->onQueue('crawler');
+        $link->dispatch();
 
         return api_response('crawl job dispatched');
     }

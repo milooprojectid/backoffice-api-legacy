@@ -47176,6 +47176,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -47214,15 +47220,15 @@ var statuses = {
         transformStatus: function transformStatus(status) {
             switch (status) {
                 case 10:
-                    return '<span class="badge bg-blue-gradient">new</span>';
+                    return '<span class="badge bg-blue">new</i></span>';
                 case 20:
-                    return '<span class="badge bg-yellow-gradient">running</span>';
+                    return '<span class="badge bg-yellow">running</span>';
                 case 30:
-                    return '<span class="badge bg-green-gradient">completed</span>';
+                    return '<span class="badge bg-green">completed</span>';
                 case 35:
-                    return '<span class="badge bg-black-gradient">invalid</span>';
+                    return '<span class="badge bg-gray">invalid</span>';
                 case 40:
-                    return '<span class="badge bg-red-gradient">failed</span>';
+                    return '<span class="badge bg-red">failed</span>';
             }
         },
         loadData: function () {
@@ -47314,6 +47320,9 @@ var statuses = {
                         break;
                     }
             }
+        },
+        dispatchJob: function dispatchJob(id) {
+            __WEBPACK_IMPORTED_MODULE_3__repository_link_repo__["a" /* default */].dispatch(id).then(function () {});
         }
     },
     filters: {
@@ -47383,8 +47392,13 @@ var getLinks = function getLinks() {
     return __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].get('/links', { params: { page: page, limit: limit, search: search, status: status, source: source } });
 };
 
+var dispatch = function dispatch(id) {
+    return __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].post('/links/' + id + '/dispatch');
+};
+
 /* harmony default export */ __webpack_exports__["a"] = ({
-    getLinks: getLinks
+    getLinks: getLinks,
+    dispatch: dispatch
 });
 
 /***/ }),
@@ -47510,7 +47524,9 @@ var render = function() {
                             _vm._v(" "),
                             _c("th", [_vm._v("source")]),
                             _vm._v(" "),
-                            _c("th", [_vm._v("status")])
+                            _c("th", [_vm._v("status")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("action")])
                           ]),
                           _vm._v(" "),
                           _vm._l(_vm.links, function(link) {
@@ -47541,7 +47557,43 @@ var render = function() {
                                     _vm.transformStatus(link.status)
                                   )
                                 }
-                              })
+                              }),
+                              _vm._v(" "),
+                              _c("td", [
+                                link.status === 10
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-xs btn-success btn-round",
+                                        on: {
+                                          click: function($event) {
+                                            _vm.dispatchJob(link._id)
+                                          }
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "fa fa-play" })]
+                                    )
+                                  : link.status === 40
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-xs btn-warning btn-round",
+                                        on: {
+                                          click: function($event) {
+                                            _vm.dispatchJob(link._id)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-refresh"
+                                        })
+                                      ]
+                                    )
+                                  : _c("span", [_vm._v("None")])
+                              ])
                             ])
                           })
                         ],

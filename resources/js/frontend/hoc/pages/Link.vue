@@ -27,11 +27,17 @@
                                     <th>url</th>
                                     <th>source</th>
                                     <th>status</th>
+                                    <th>action</th>
                                 </tr>
                                 <tr v-for="link in links">
                                     <td><a :href="link.url" target="_blank">{{link.url | limitString}}</a></td>
                                     <td><span class="badge bg-gray">{{link.source}}</span></td>
                                     <td v-html="transformStatus(link.status)"></td>
+                                    <td>
+                                        <button v-if="link.status === 10" @click="dispatchJob(link._id)" class="btn btn-xs btn-success btn-round"><i class="fa fa-play"></i></button>
+                                        <button v-else-if="link.status === 40" @click="dispatchJob(link._id)" class="btn btn-xs btn-warning btn-round"><i class="fa fa-refresh"></i></button>
+                                        <span v-else>None</span>
+                                    </td>
                                 </tr>
                                 </tbody>
                                 <div v-else class="text-center">
@@ -103,11 +109,11 @@
         methods:{
             transformStatus: (status) => {
                 switch (status) {
-                    case 10: return '<span class="badge bg-blue-gradient">new</span>';
-                    case 20: return '<span class="badge bg-yellow-gradient">running</span>';
-                    case 30: return '<span class="badge bg-green-gradient">completed</span>';
-                    case 35: return '<span class="badge bg-black-gradient">invalid</span>';
-                    case 40: return '<span class="badge bg-red-gradient">failed</span>';
+                    case 10: return '<span class="badge bg-blue">new</i></span>';
+                    case 20: return '<span class="badge bg-yellow">running</span>';
+                    case 30: return '<span class="badge bg-green">completed</span>';
+                    case 35: return '<span class="badge bg-gray">invalid</span>';
+                    case 40: return '<span class="badge bg-red">failed</span>';
                 }
             },
             async loadData(page = 1, limit = 10, params = {}) {
@@ -140,6 +146,12 @@
                         break;
                     }
                 }
+            },
+            dispatchJob(id){
+                LinkRepo.dispatch(id)
+                    .then(() => {
+
+                    })
             }
         },
         filters: {

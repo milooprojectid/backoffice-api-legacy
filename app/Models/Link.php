@@ -2,6 +2,8 @@
 
 namespace App\models;
 
+use App\Events\JobDispatched;
+use App\Jobs\CrawlJob;
 use Jenssegers\Mongodb\Eloquent\Model as Model;
 
 class Link extends Model
@@ -47,6 +49,10 @@ class Link extends Model
         });
     }
 
+    public function dispatch(){
+        CrawlJob::dispatch($this)->onQueue('crawler');
+        event(new JobDispatched('crawl', 1));
+    }
     // --
 
 
