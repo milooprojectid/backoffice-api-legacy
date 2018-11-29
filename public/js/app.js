@@ -16468,9 +16468,14 @@ var getSources = function getSources() {
     return __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].get('/sources', { params: { page: page, limit: limit, search: search, status: status } });
 };
 
+var changeStatus = function changeStatus(id) {
+    return __WEBPACK_IMPORTED_MODULE_0__utils_http__["a" /* default */].post('/sources/' + id + '/change-status');
+};
+
 /* harmony default export */ __webpack_exports__["a"] = ({
     getAllSources: getAllSources,
-    getSources: getSources
+    getSources: getSources,
+    changeStatus: changeStatus
 });
 
 /***/ }),
@@ -44144,6 +44149,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
@@ -44259,7 +44268,27 @@ var render = function() {
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
-          _vm._m(0)
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            {
+              staticClass: "disabled",
+              attrs: {
+                to: "/config",
+                "active-class": "active",
+                tag: "li",
+                exact: ""
+              }
+            },
+            [
+              _c("a", [
+                _c("i", { staticClass: "fa fa-gear" }),
+                _vm._v(" "),
+                _c("span", [_vm._v("Settings")])
+              ])
+            ]
+          )
         ],
         1
       )
@@ -45767,9 +45796,9 @@ var statuses = {
         transformStatus: function transformStatus(status) {
             switch (status) {
                 case 0:
-                    return '<span class="badge bg-red-gradient">inactive</span>';
+                    return '<span class="badge bg-red"><i class="fa fa-times"></i></span>';
                 case 1:
-                    return '<span class="badge bg-green-gradient">active</span>';
+                    return '<span class="badge bg-green"><i class="fa fa-check"></i></span>';
             }
         },
         loadData: function () {
@@ -45855,6 +45884,15 @@ var statuses = {
                         break;
                     }
             }
+        },
+        changeStatus: function changeStatus(source) {
+            var _this = this;
+
+            __WEBPACK_IMPORTED_MODULE_3__repository_source_repo__["a" /* default */].changeStatus(source._id).then(function () {
+                var index = _this.sources.indexOf(source);
+                var old = _this.sources[index].status;
+                _this.sources[index].status = old === 1 ? 0 : 1;
+            });
         }
     },
     filters: {
@@ -46913,6 +46951,11 @@ var render = function() {
                                   innerHTML: _vm._s(
                                     _vm.transformStatus(source.status)
                                   )
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.changeStatus(source)
+                                  }
                                 }
                               })
                             ])
@@ -48608,17 +48651,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -48650,22 +48682,24 @@ var render = function() {
       _c("h2", { staticClass: "headline text-yellow" }, [_vm._v(" 404")]),
       _vm._v(" "),
       _c("div", { staticClass: "error-content" }, [
+        _c("br"),
+        _vm._v(" "),
         _vm._m(0),
         _vm._v(" "),
         _c(
           "p",
           [
             _vm._v(
-              "\n                    We could not find the page you were looking for.\n                    Meanwhile, you may "
+              "\n                    We could not find the page you were looking for. "
             ),
+            _c("br"),
+            _vm._v(" "),
             _c("router-link", { attrs: { tag: "a", to: "/home" } }, [
-              _vm._v("return to home")
+              _vm._v("Return to home")
             ])
           ],
           1
-        ),
-        _vm._v(" "),
-        _vm._m(1)
+        )
       ])
     ])
   ])
@@ -48678,30 +48712,6 @@ var staticRenderFns = [
     return _c("h3", [
       _c("i", { staticClass: "fa fa-warning text-yellow" }),
       _vm._v(" Oops! Page not found.")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("form", { staticClass: "search-form" }, [
-      _c("div", { staticClass: "input-group" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", name: "search", placeholder: "Search" }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group-btn" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-warning btn-flat",
-              attrs: { type: "submit", name: "submit" }
-            },
-            [_c("i", { staticClass: "fa fa-search" })]
-          )
-        ])
-      ])
     ])
   }
 ]

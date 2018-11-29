@@ -31,4 +31,10 @@ class SourceController extends Controller
 
         return api_response('source datas retrieved', $sources);
     }
+
+    public function changeStatus($id){
+        $source = Source::find($id);
+        $source->toggleStatus();
+        return api_response('source status updated', $source);
+    }
 }

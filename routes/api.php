@@ -21,6 +21,7 @@ Route::group(['prefix' => 'schedule'], function (){
 
 Route::group(['prefix' => 'sources'], function (){
     Route::get('/', 'SourceController@index');
+    Route::post('/{id}/change-status', 'SourceController@changeStatus');
 });
 
 Route::group(['prefix' => 'links'], function (){

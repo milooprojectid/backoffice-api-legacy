@@ -27,6 +27,10 @@
                 <li>
                     <a href="/horizon" target="_blank"><i class="fa fa-desktop"></i> <span>Queue Monitor</span></a>
                 </li>
+
+                <router-link to="/config" active-class="active" tag="li" class="disabled" exact>
+                    <a><i class="fa fa-gear"></i> <span>Settings</span></a>
+                </router-link>
             </ul>
         </section>
     </aside>

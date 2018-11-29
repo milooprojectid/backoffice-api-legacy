@@ -32,7 +32,7 @@
                                     <td>{{source.name}}</td>
                                     <td>{{source.alias}}</td>
                                     <td><a :href="source.url" target="_blank">{{source.url}}</a></td>
-                                    <td v-html="transformStatus(source.status)"></td>
+                                    <td v-html="transformStatus(source.status)" @click="changeStatus(source)"></td>
                                 </tr>
                                 </tbody>
                                 <div v-else class="text-center">
@@ -92,8 +92,8 @@
         methods:{
             transformStatus: (status) => {
                 switch (status) {
-                    case 0: return '<span class="badge bg-red-gradient">inactive</span>';
-                    case 1: return '<span class="badge bg-green-gradient">active</span>';
+                    case 0: return '<span class="badge bg-red"><i class="fa fa-times"></i></span>';
+                    case 1: return '<span class="badge bg-green"><i class="fa fa-check"></i></span>';
                 }
             },
             async loadData(page = 1, limit = 10, params = {}) {
@@ -121,6 +121,14 @@
                         break;
                     }
                 }
+            },
+            changeStatus (source){
+                SourceRepo.changeStatus(source._id)
+                    .then(() => {
+                        const index = this.sources.indexOf(source);
+                        const old = this.sources[index].status;
+                        this.sources[index].status = old === 1 ? 0 : 1;
+                    });
             }
         },
         filters: {
