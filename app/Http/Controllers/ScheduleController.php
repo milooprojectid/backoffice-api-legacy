@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\JobDispatched;
 use App\Jobs\CrawlJob;
 use App\Jobs\ScrapJob;
 use App\Models\Conf;
@@ -24,16 +25,18 @@ class ScheduleController extends Controller
         $maxCrawlJob = (int)Conf::crawlerJobLimit()->value;
         $allowedJob = $maxCrawlJob - $runningJob;
 
-        $mes = null;
+        $count = 0;
         if ($allowedJob > 0) {
             $links = Link::new()->oldest()->take($allowedJob)->get();
             foreach ($links as $link){
                 CrawlJob::dispatch($link)->onQueue('crawler');
             }
-            $mes = count($links);
+            $count = count($links);
         }
 
-        return api_response(($mes ? $mes : 'no') . ' crawl job(s) dispatched');
+        event(new JobDispatched('crawl', $count));
+
+        return api_response($count . ' crawl job(s) dispatched');
     }
 
     public function scrap(){
@@ -41,15 +44,17 @@ class ScheduleController extends Controller
         $maxScrapJob = (int)Conf::scrapperJobLimit()->value;
         $allowedJob = $maxScrapJob - $runningJob;
 
-        $mes = null;
+        $count = 0;
         if ($allowedJob > 0 && $this->status) {
             $raws = Raw::new()->oldest()->take($allowedJob)->get();
             foreach ($raws as $raw){
                 ScrapJob::dispatch($raw)->onQueue('scrapper');
             }
-            $mes = count($raws);
+            $count = count($raws);
         }
 
-        return api_response(($mes ?  $mes : 'no') . ' scrap job(s) dispatched');
+        event(new JobDispatched('scrap', $count));
+
+        return api_response($count . ' scrap job(s) dispatched');
     }
 }
