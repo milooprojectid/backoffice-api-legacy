@@ -43,4 +43,8 @@ class HomeController extends Controller
 
         return api_response('summary data retrieved', $datas);
     }
+
+    public function weeklyCrawlDispatched(){
+        return api_response('chart data retrieved', []);
+    }
 }
