@@ -1,0 +1,8 @@
+[program:milo-horizon]
+process_name=%(program_name)s
+command=php /home/apps/milo-backoffice/artisan horizon
+autostart=true
+autorestart=true
+user=ubuntu
+redirect_stderr=true
+stdout_logfile=/home/apps/myfast/horizon.log
