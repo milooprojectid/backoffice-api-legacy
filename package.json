@@ -17,10 +17,10 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.5",
         "popper.js": "^1.12",
-        "vue": "^2.5.17"
+        "vue": "^2.5.17",
+        "cross-env": "^5.1"
     },
     "dependencies": {
-        "cross-env": "^5.1",
         "apexcharts": "^2.2.1",
         "moment": "^2.22.2",
         "pusher-js": "^4.3.1",
