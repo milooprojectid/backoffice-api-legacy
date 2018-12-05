@@ -1,2 +1,2 @@
-release: npm install && npm run prod
+release: ./release.sh
 web: vendor/bin/heroku-php-apache2 public/
