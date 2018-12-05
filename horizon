@@ -5,4 +5,4 @@ autostart=true
 autorestart=true
 user=ubuntu
 redirect_stderr=true
-stdout_logfile=/home/apps/myfast/horizon.log
+stdout_logfile=/home/apps/milo-backoffice/horizon.log
