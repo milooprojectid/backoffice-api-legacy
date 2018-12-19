@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Corpus;
-use App\models\Link;
+use App\Models\Link;
 use App\Models\Raw;
 use App\Models\Source;
 

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\models\Link;
+use App\Models\Link;
 use Faker\Factory;
 
 class LinkSeeder extends Seeder

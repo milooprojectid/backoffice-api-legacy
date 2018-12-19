@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LinkRequest;
 use App\Jobs\CrawlJob;
-use App\models\Link;
+use App\Models\Link;
 
 class LinkController extends Controller
 {

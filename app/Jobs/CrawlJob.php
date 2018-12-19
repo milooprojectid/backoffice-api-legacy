@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\models\Link;
+use App\Models\Link;
 use GuzzleHttp\Client;
 use Exception;
 use Illuminate\Bus\Queueable;
