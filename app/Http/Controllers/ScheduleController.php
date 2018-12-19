@@ -6,7 +6,7 @@ use App\Events\JobDispatched;
 use App\Jobs\CrawlJob;
 use App\Jobs\ScrapJob;
 use App\Models\Conf;
-use App\models\Link;
+use App\Models\Link;
 use App\Models\Raw;
 
 class ScheduleController extends Controller
