@@ -39,15 +39,11 @@ class ScrapJob implements ShouldQueue
                     'secret' => env('SCRAPPER_SECRET')
                 ]
             ];
+
             $this->response = $http->post('/scrap', $options);
-        }
 
-        catch (Exception $e){
-            $this->raw->setFailed();
-        }
-
-        finally {
             $code = (int) $this->response->getStatusCode();
+
             switch ($code) {
                 case 201:
                     $this->raw->setCompleted();
@@ -55,6 +51,10 @@ class ScrapJob implements ShouldQueue
                 default:
                     $this->raw->setFailed();
             }
+        }
+
+        catch (Exception $e){
+            $this->raw->setFailed();
         }
     }
 

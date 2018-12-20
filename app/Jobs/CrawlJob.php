@@ -40,15 +40,11 @@ class CrawlJob implements ShouldQueue
                     'secret' => env('SCRAPPER_SECRET')
                 ]
             ];
+
             $this->response = $http->post('/crawl', $options);
-        }
 
-        catch (Exception $e){
-            $this->link->setFailed();
-        }
-
-        finally {
             $code = (int) $this->response->getStatusCode();
+
             switch ($code) {
                 case 201:
                     $this->link->setCompleted();
@@ -59,6 +55,10 @@ class CrawlJob implements ShouldQueue
                 default:
                     $this->link->setFailed();
             }
+        }
+
+        catch (Exception $e){
+            $this->link->setFailed();
         }
 
     }
