@@ -13,7 +13,6 @@ class SourceSeeder extends Seeder
      */
     public function run()
     {
-
         $sources = [
             [
                 "name" => "detik",
@@ -131,14 +130,8 @@ class SourceSeeder extends Seeder
             ]
         ];
 
-//        $faker = Factory::create();
         foreach ($sources as $source){
-            Source::create([
-                "name" => $source->name,
-			    "alias" => $source->alias,
-			    "url" => $source->url,
-                "status" => $source->status
-            ]);
+            Source::create($source);
         }
     }
 }
