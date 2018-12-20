@@ -45,7 +45,7 @@ class Link extends Model
 
     public function scopeSourceIsActive($query){
         return $query->whereHas('sourceRelation', function ($q){
-           $q->where('status', 0);
+           $q->where('status', 1);
         });
     }
 
