@@ -40,12 +40,12 @@ class ScrapJob implements ShouldQueue
                 ]
             ];
 
-            $this->response = $http->post('/scrap', $options);
+            $this->response = $http->post('/v1/scrap', $options);
 
             $code = (int) $this->response->getStatusCode();
 
             switch ($code) {
-                case 201:
+                case 200:
                     $this->raw->setCompleted();
                     break;
                 default:

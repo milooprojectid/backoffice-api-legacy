@@ -28,6 +28,8 @@ class CrawlJob implements ShouldQueue
         $http = new Client(['base_uri' => env('SCRAPPER_URL')]);
         $this->link->setRunning();
 
+        echo env('SCRAPPER_URL');
+
         try {
             $options = [
                 'body' => json_encode([
@@ -41,12 +43,14 @@ class CrawlJob implements ShouldQueue
                 ]
             ];
 
-            $this->response = $http->post('/crawl', $options);
+            $this->response = $http->post('/v1/crawl', $options);
 
             $code = (int) $this->response->getStatusCode();
 
+            echo $code;
+
             switch ($code) {
-                case 201:
+                case 200:
                     $this->link->setCompleted();
                     break;
                 case 204:
@@ -58,6 +62,7 @@ class CrawlJob implements ShouldQueue
         }
 
         catch (Exception $e){
+            echo $e;
             $this->link->setFailed();
         }
 
