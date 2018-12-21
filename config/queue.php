@@ -61,7 +61,7 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
             'queue' => ['scrapper', 'crawler'],
-            'retry_after' => 90,
+            'retry_after' => 20,
             'block_for' => null,
         ],
 
