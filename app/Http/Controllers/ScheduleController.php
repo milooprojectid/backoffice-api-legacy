@@ -29,6 +29,7 @@ class ScheduleController extends Controller
         if ($allowedJob > 0) {
             $links = Link::new()->oldest()->sourceIsActive()->take($allowedJob)->get();
             foreach ($links as $link){
+                $link->setRunning();
                 CrawlJob::dispatch($link)->onQueue('crawler');
             }
             $count = count($links);
@@ -48,6 +49,7 @@ class ScheduleController extends Controller
         if ($allowedJob > 0 && $this->status) {
             $raws = Raw::new()->oldest()->take($allowedJob)->get();
             foreach ($raws as $raw){
+                $raw->setRunning();
                 ScrapJob::dispatch($raw)->onQueue('scrapper');
             }
             $count = count($raws);

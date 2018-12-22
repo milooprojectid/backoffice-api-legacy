@@ -27,7 +27,6 @@ class ScrapJob implements ShouldQueue
     public function handle()
     {
         $http = new Client(['base_uri' => env('SCRAPPER_URL')]);
-        $this->raw->setRunning();
 
         try {
             $options = [

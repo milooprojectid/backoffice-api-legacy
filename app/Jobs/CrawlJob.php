@@ -26,7 +26,6 @@ class CrawlJob implements ShouldQueue
     public function handle()
     {
         $http = new Client(['base_uri' => env('SCRAPPER_URL')]);
-        $this->link->setRunning();
 
         try {
             $options = [
