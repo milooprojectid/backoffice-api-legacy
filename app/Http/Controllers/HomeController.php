@@ -21,12 +21,12 @@ class HomeController extends Controller
         ];
 
         $link = [
-            "done" => Link::all()->where('status', 1)->count(),
+            "done" => Link::all()->whereIn('status', [30, 35, 40])->count(),
             "all" => Link::all()->count()
         ];
 
         $raw = [
-            "done" => Raw::all()->where('status', 1)->count(),
+            "done" => Raw::all()->whereIn('status', [30, 40])->count(),
             "all" => Raw::all()->count()
         ];
 
