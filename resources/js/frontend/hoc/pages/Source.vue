@@ -26,13 +26,17 @@
                                     <th>name</th>
                                     <th>alias</th>
                                     <th>url</th>
-                                    <th>status</th>
+                                    <th>action</th>
                                 </tr>
                                 <tr v-for="source in sources">
                                     <td>{{source.name}}</td>
                                     <td>{{source.alias}}</td>
                                     <td><a :href="source.url" target="_blank">{{source.url}}</a></td>
-                                    <td v-html="transformStatus(source.status)" @click="changeStatus(source)"></td>
+                                    <td>
+                                        <button @click="changeStatus(source)" v-if="source.status === 0" class="btn btn-xs bg-red"><i class="fa fa-times"></i></button>
+                                        <button @click="changeStatus(source)" v-else class="btn btn-xs bg-green"><i class="fa fa-check"></i></button>
+                                        <button @click="pushSource(source._id)" class="btn btn-xs bg-info"><i class="fa fa-plus"></i></button>
+                                    </td>
                                 </tr>
                                 </tbody>
                                 <div v-else class="text-center">
@@ -90,12 +94,6 @@
             Select2
         },
         methods:{
-            transformStatus: (status) => {
-                switch (status) {
-                    case 0: return '<span class="badge bg-red"><i class="fa fa-times"></i></span>';
-                    case 1: return '<span class="badge bg-green"><i class="fa fa-check"></i></span>';
-                }
-            },
             async loadData(page = 1, limit = 10, params = {}) {
                 const { data } = await SourceRepo.getSources(page, limit, params);
                 const { content: { data: sources, total, last_page: totalPage } } = data;
@@ -129,6 +127,9 @@
                         const old = this.sources[index].status;
                         this.sources[index].status = old === 1 ? 0 : 1;
                     });
+            },
+            pushSource (id){
+                SourceRepo.pushToJob(id)
             }
         },
         filters: {
