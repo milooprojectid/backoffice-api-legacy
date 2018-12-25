@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Events\JobCompleted;
+use App\Events\JobFailed;
 use App\Models\Link;
 use GuzzleHttp\Client;
 use Exception;
@@ -28,7 +30,7 @@ class CrawlJob implements ShouldQueue
         $http = new Client(['base_uri' => env('SCRAPPER_URL')]);
 
         try {
-            $options = [
+            $this->response = $http->post('/v1/crawl', [
                 'body' => json_encode([
                     'source' => $this->link->source,
                     'url' => $this->link->sourceRelation->url,
@@ -38,27 +40,26 @@ class CrawlJob implements ShouldQueue
                     'Content-Type' => 'application/json',
                     'secret' => env('SCRAPPER_SECRET')
                 ]
-            ];
-
-            $this->response = $http->post('/v1/crawl', $options);
+            ]);
 
             $code = (int) $this->response->getStatusCode();
+            $body = json_decode($this->response->getBody(), true);
 
             switch ($code) {
                 case 200:
                     $this->link->setCompleted();
-                    break;
-                case 204:
-                    $this->link->setInvalid();
+                    event(new JobCompleted('link', $body['content']['new'], $body['content']['done']));
                     break;
                 default:
                     $this->link->setFailed();
+                    event(new JobFailed('crawl'));
             }
+
         }
 
         catch (Exception $e){
-            echo $e;
             $this->link->setFailed();
+            event(new JobFailed('crawl'));
         }
 
     }
