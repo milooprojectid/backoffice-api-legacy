@@ -16,7 +16,7 @@ class HomeController extends Controller
 
     public function summary(){
         $source = [
-            "active" => Source::all()->where('active', true)->count(),
+            "active" => Source::all()->where('status', 1)->count(),
             "all" => Source::all()->count()
         ];
 
