@@ -16,22 +16,22 @@ class HomeController extends Controller
 
     public function summary(){
         $source = [
-            "active" => Source::all()->where('status', 1)->count(),
-            "all" => Source::all()->count()
+            "active" => Source::where('status', 1)->count(),
+            "all" => Source::count()
         ];
 
         $link = [
-            "done" => Link::all()->whereIn('status', [30, 35, 40])->count(),
-            "all" => Link::all()->count()
+            "done" => Link::whereIn('status', [30, 35, 40])->count(),
+            "all" => Link::count()
         ];
 
         $raw = [
-            "done" => Raw::all()->whereIn('status', [30, 40])->count(),
-            "all" => Raw::all()->count()
+            "done" => Raw::whereIn('status', [30, 40])->count(),
+            "all" => Raw::count()
         ];
 
         $corpus = [
-            "all" => Corpus::all()->count()
+            "all" => Corpus::count()
         ];
 
         $datas = [
