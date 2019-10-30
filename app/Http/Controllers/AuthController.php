@@ -38,12 +38,12 @@ class AuthController extends Controller
             'password'  => 'required'
         ]);
 
-        $user = User::where('username', $this->request->input('username'))->first();
-        if (!$user) {
-            return api_response('username or password is invalid', null, 401);
-        }
+        // if (!$user) {
+        //     return api_response('username or password is invalid', null, 401);
+        // }
 
-        if (!Hash::check($this->request->input('password'), $user->password)) {
+        $user = User::where('username', $this->request->input('username'))->first();
+        if (!$user || !Hash::check($this->request->input('password'), $user->password)) {
             return api_response('username or password is invalid', null, 401);
         }
 

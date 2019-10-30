@@ -7,7 +7,6 @@ Route::get('/', function () {
 Route::post('/login', 'AuthController@login');
 Route::get('/profile', 'MainController@profile');
 
-
 Route::group(['prefix' => 'home'], function (){
     Route::get('/summary', 'HomeController@summary');
     Route::get('/raw-chart', 'HomeController@raw_chart');
@@ -17,7 +16,6 @@ Route::group(['prefix' => 'schedule'], function (){
     Route::post('/crawl', 'ScheduleController@crawl');
     Route::post('/scrap', 'ScheduleController@scrap');
 });
-
 
 Route::group(['prefix' => 'sources'], function (){
     Route::get('/', 'SourceController@index');
